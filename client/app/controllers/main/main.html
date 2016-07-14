@@ -1,49 +1,37 @@
-<div class="view-main">
+<div class="view-main" style="width:100%;">
   
-  <ol class="breadcrumb">
-    <li class="title">Pokemon Live Spawn Points... {{data.count}} tweet{{data.count > 1 ? 's' : ''}} captured</li>
-  </ol>
-
-  <div class="panel panel-default">
+  <!-- <div class="panel panel-default">
     <div class="panel-body">
-      <connexion-time></connexion-time><div class="pull-right"><a href="#infos" du-smooth-scroll duration="1000" title="More about Topheman Datavisual ..."><span class="hidden-xs">About ...</span> <span class="glyphicon glyphicon-info-sign"></span></a></div>
+        <div class="title pull-left">Pokemon Live Spawn Points... {{data.count}} tweet{{data.count > 1 ? 's' : ''}} captured</div>
+      
+       
+    </div>
+  </div> -->
+
+  <div class="row content">
+    <!-- Google Map -->
+    <div class="col-md-10">
+        <div id="map" style="width:100%;height:500px;"><img src="holder.js/645x645"></div>
+    </div>
+    <div class="col-md-2">
+      <h2 id="infos">PokeSpawn</h2>
+      <p>We have to find them all, so let's crowd source the effort! </p>
+      
+      <p>
+        We pull tweets from around the world with the name of the pokemon, or hashtag #pokespawn<br> 
+      </p>
+      <p class="twitter-button-wrapper">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://pokespawn.com" data-text="Track your Pokemon at PokeSpawn!" data-via="jedihacks" data-size="large" data-count="none">Share this site!</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      </p>
     </div>
   </div>
-
-  <div id="map" style="width:100%;height:500px;"></div>
-  
   <debug-state ng-if="false"></debug-state>
     <!-- <pack-chart-channels data-data="data" ng-if="displayState.packChartChannels"></pack-chart-channels> -->
   
-  
-  <h3 id="infos">Topheman Datavisual</h3>
-  
-  <p>The purpose of this site was for me to make an application using <strong>Angular</strong> and <strong>d3</strong> together with real-time data.</p>
-  <p>All the d3 directives (the graphs) that you will see are home made in pure d3 and plugged in to Angular - they also are responsive.</p>
-  <p>
-    The data comes from the Twitter Stream API - it's like if the server was directly plugged in to Twitter's, listening to all the tweets matching the specified keywords.<br>
-    Resulting tweets are post-processed by <a href="https://github.com/topheman/twitter-stream-channels" title="twitter-stream-channels on github">twitter-stream-channels</a>, a node module I made, and then are transferred in realtime by my node server to the frontend via websockets.
-  </p>
-  <ul>
-    <li ng-repeat="channel in channelsDescription"><a  ng-href="{{'/channel/'+$index}}">{{channel.title}}</a></li>
-  </ul>
-  <p class="twitter-button-wrapper">
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://topheman-datavisual.herokuapp.com" data-text="Datavisualization with #angular #d3 #nodejs based on Twitter Stream" data-via="topheman" data-size="large" data-count="none">Tweet</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-  </p>
-
-  <div ng-repeat="channel in data.channelsDescription" ng-if="false">
-    <h4>{{channel.title}}</h4>
-    <p>{{data.channels[$index].count}} tweets</p>
-    <ul>
-      <li ng-repeat="keyword in data.channels[$index].keywords">"{{keyword.name}}" found {{keyword.count}} times</li>
-    </ul>
-    <hr>
-  </div>
-
   <footer class="footer">
     <p class="container">
-      ©2016 <a href="www.twitter.com/jedihacks">Jedidiah Weller</a>, Cofounder @ <a href="www.webjunto.com">Webjunto.com</a>
+      ©2016 <a href="www.twitter.com/jedihacks">@jedihacks</a>, Cofounder @ <a href="www.webjunto.com">Webjunto.com</a>
     </p>
   </footer>
 

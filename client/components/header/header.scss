@@ -1,5 +1,5 @@
 header .container-fluid{
-  max-width:100%;
+  max-width:768px;
   li.active > a > .badge{
     background-color: $badge-active-bg;
     color: $badge-active-color;
