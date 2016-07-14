@@ -18,10 +18,10 @@ angular.module('tophemanDatavizApp')
                 console.log('state.twitter', newVal, oldVal);
                 if(newVal !== oldVal){
                   if(newVal === 'disconnected'){
-                    growl.warning("Server has disconnected from Twitter stream, trying to reconnect ...");
+                    growl.warning("Utoh, something happened! ...");
                   }
                   if(newVal === 'connected'){
-                    growl.success("Server successfully connected to Twitter stream", {ttl: 15000});
+                    growl.success("Gotta catch them all!", {ttl: 15000});
                   }
                 }
               });
@@ -33,7 +33,7 @@ angular.module('tophemanDatavizApp')
                     growl.error("Socket disconnected<br>Application trying to reconnect ...");
                   }
                   if(newVal === 'connected'){
-                    growl.success("Socket connected<br>Application successfully connected.");
+                    // growl.success("Socket connected<br>Application successfully connected.");
                   }
                   if(newVal === 'disconnected-due-to-inactivity'){
                     scope.hideGrowls = true;
