@@ -8,6 +8,19 @@ angular.module('tophemanDatavizApp')
   $scope.data = persistance.getData();
   $scope.displayState = displayState;
 
+  $scope.$watchCollection('data', function(newData, oldData) {
+    //console.log("Data has changed!, data: " + JSON.stringify(newData.channels[2].lastTweets[0]["coordinates"].coordinates));
+    var lat = newData.channels[2].lastTweets[0]["coordinates"].coordinates[0];
+    var lon = newData.channels[2].lastTweets[0]["coordinates"].coordinates[1];
+    var tmpCoordinates = new google.maps.LatLng(lat, lon);
+    // $scope.dataCount = newNames.length;
+    var marker = new google.maps.Marker({
+        map: $scope.map,
+        animation: google.maps.Animation.DROP,
+        position: tmpCoordinates
+    });
+  });
+
   var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
 
   var mapOptions = {
