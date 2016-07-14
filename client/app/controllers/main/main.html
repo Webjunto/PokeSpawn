@@ -9,17 +9,12 @@
       <connexion-time></connexion-time><div class="pull-right"><a href="#infos" du-smooth-scroll duration="1000" title="More about Topheman Datavisual ..."><span class="hidden-xs">About ...</span> <span class="glyphicon glyphicon-info-sign"></span></a></div>
     </div>
   </div>
+
+  <div id="map" style="width:100%;height:500px;"></div>
   
   <debug-state ng-if="false"></debug-state>
-
-  <div class="panel panel-default pannel-pack-chart">
-    <!-- Default panel contents -->
-    <div class="panel-heading" ng-click="displayState.packChartChannels = !displayState.packChartChannels">
-      Pack chart
-      <span ng-class="{'glyphicon':true, 'glyphicon-chevron-down' : !displayState.packChartChannels, 'glyphicon-chevron-up':displayState.packChartChannels}"></span>
-    </div>
-    <pack-chart-channels data-data="data" ng-if="displayState.packChartChannels"></pack-chart-channels>
-  </div>
+    <!-- <pack-chart-channels data-data="data" ng-if="displayState.packChartChannels"></pack-chart-channels> -->
+  
   
   <h3 id="infos">Topheman Datavisual</h3>
   
