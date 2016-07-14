@@ -61,6 +61,7 @@ var SocketsManager = function(io, twitterStreamManager){
       created_at : tweet.created_at,
       coordinates : tweet.coordinates["coordinates"],
       profile_image_url:  tweet.user.profile_image_url,
+      post_picture: tweet.post_picture,
       $channels : tweet.$channels,
       $keywords : tweet.$keywords,
       keywords: tweet.$keywords //This is for the model, can't use $
@@ -69,14 +70,14 @@ var SocketsManager = function(io, twitterStreamManager){
 
   // MongoDB evaluates Long/Lat instead of Lat/Long.  So for DB only swap them.
   var swapTweetCoordinates = function (tweet) {
-    console.log("swapTweetCoordinates... " +  JSON.stringify(tweet.coordinates));
+    //console.log("swapTweetCoordinates... " +  JSON.stringify(tweet.coordinates));
 
     var tmpLat = tweet.coordinates[0];
     var tmpLon = tweet.coordinates[1];
 
     tweet.coordinates[0] = tmpLon;
     tweet.coordinates[1] = tmpLat;
-    console.log("SWAPPED... " +  JSON.stringify(tweet.coordinates));
+    //console.log("SWAPPED... " +  JSON.stringify(tweet.coordinates));
     return tweet;
   }
   
@@ -98,8 +99,27 @@ var SocketsManager = function(io, twitterStreamManager){
       io.emit('twitter:connected',{twitterState:twitterState});
     });
     stream.on('channels',function(tweet){
-      //console.log("Tweet : " + tweet.text + ", " + JSON.stringify(tweet));
       if (tweet.coordinates != null) {
+        console.log("");
+        console.log("Tweet coordinates pass : " + tweet.text );
+        var containsImageHTTPS = tweet.text.indexOf("https://t.co/");  //This is where Twitter posts images
+        var containsImageHTTP = tweet.text.indexOf("http://t.co/");  //This is where Twitter posts images
+        var tmpImageURL = null;
+
+        if (containsImageHTTPS > -1){
+          tmpImageURL = tweet.text.substring(containsImageHTTPS);
+          console.log("Found acceptable Tweet w/ image " + tmpImageURL);
+        } else if (containsImageHTTP > -1) {
+          tmpImageURL = tweet.text.substring(containsImageHTTP);
+          console.log("Found acceptable Tweet w/ image " + tmpImageURL);
+        }        
+        else {
+          console.log("No suitable tweet w/ image found");
+          return;
+        }
+
+        // Add the Picture URL to the Tweet
+        tweet.picture_url = tmpImageURL;
         // Remove unnecessary JSON data
         var broadcastTweet = reformatTweet(tweet);
 
