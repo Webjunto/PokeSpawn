@@ -2,6 +2,10 @@ var socketMaxAge = require('../../config/environment').socketMaxAge;
 var socketMaxAgeAlertBefore = require('../../config/environment').socketMaxAgeAlertBefore;
 var cleanSocketsDelay = require('../../config/environment').cleanSocketsDelay;
 
+// Dependencies
+var mongoose        = require('mongoose');
+var Tweet            = require('../../model.js');
+
 if(socketMaxAgeAlertBefore > socketMaxAge){
   throw new Error("socketMaxAgeAlertBefore > socketMaxAge - must be lesser than. socketMaxAgeAlertBefore : "+socketMaxAgeAlertBefore+", socketMaxAge : "+socketMaxAge);
 }
@@ -53,8 +57,13 @@ var SocketsManager = function(io, twitterStreamManager){
     return {
       id : tweet.id,
       text : tweet.text,
+      screen_name: tweet.user.screen_name,
+      created_at : tweet.created_at,
+      coordinates : tweet.coordinates["coordinates"],
+      profile_image_url:  tweet.user.profile_image_url,
       $channels : tweet.$channels,
-      $keywords : tweet.$keywords
+      $keywords : tweet.$keywords,
+      keywords: tweet.$keywords //This is for the model, can't use $
     };
   };
   
@@ -76,7 +85,26 @@ var SocketsManager = function(io, twitterStreamManager){
       io.emit('twitter:connected',{twitterState:twitterState});
     });
     stream.on('channels',function(tweet){
-      io.emit('data',reformatTweet(tweet));
+      //console.log("Tweet : " + tweet.text + ", " + JSON.stringify(tweet));
+      if (tweet.coordinates != null) {
+        // Remove unnecessary JSON data
+        var tmpTweet = reformatTweet(tweet);
+        // Creates a new Tweet based on the Mongoose schema and the post bo.dy
+        var newtweet = new Tweet(tmpTweet);
+
+        // New Tweet is saved in the db.
+        newtweet.save(function(err){
+          // console.log("Inside newtweet.save");
+            if(err) {
+              console.log("error = " + err);
+              return;
+            }
+            // If no errors are found, it responds with a JSON of the new tweet
+            // console.log("successful save");
+        });
+
+        io.emit('data',tmpTweet);
+      }
     });
   };
   

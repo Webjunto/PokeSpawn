@@ -7,6 +7,7 @@
 var express = require('express');
 var favicon = require('static-favicon');
 var morgan = require('morgan');
+var mongoose = require('mongoose');
 var compression = require('compression');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
@@ -35,6 +36,9 @@ module.exports = function(app) {
   }
 
   if ('development' === env || 'development-online' === env || 'test' === env) {
+    // Sets the connection to MongoDB
+    mongoose.connect("mongodb://localhost/PokemonSpawnDev");
+    
     app.use(require('connect-livereload')());
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, 'client')));

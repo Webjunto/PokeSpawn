@@ -14,6 +14,7 @@ var config = require('./config/environment');
 var app = express();
 var server = require('http').createServer(app);
 require('./config/express')(app);
+require('./routes.js')(app);
 
 //setup socket.io server and attah it to the express server
 var io = require('socket.io')(server);
