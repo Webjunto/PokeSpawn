@@ -11,13 +11,13 @@
     "Mew"]
   },
   {
-    "title": "Fruits",
+    "title": "",
     "description" : "",
-    "track": ["kiwi", "orange", "apple", "lemon", "coconut"]
+    "track": []
   },
   {
-    "title" : "Places to be",
+    "title" : "",
     "description" : "",
-    "track": ["at home", "at work", "beach"]
+    "track": []
   }
 ]
