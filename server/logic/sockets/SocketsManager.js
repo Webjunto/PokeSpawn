@@ -66,6 +66,19 @@ var SocketsManager = function(io, twitterStreamManager){
       keywords: tweet.$keywords //This is for the model, can't use $
     };
   };
+
+  // MongoDB evaluates Long/Lat instead of Lat/Long.  So for DB only swap them.
+  var swapTweetCoordinates = function (tweet) {
+    console.log("swapTweetCoordinates... " +  JSON.stringify(tweet.coordinates));
+
+    var tmpLat = tweet.coordinates[0];
+    var tmpLon = tweet.coordinates[1];
+
+    tweet.coordinates[0] = tmpLon;
+    tweet.coordinates[1] = tmpLat;
+    console.log("SWAPPED... " +  JSON.stringify(tweet.coordinates));
+    return tweet;
+  }
   
   var manageEventsBetweenTwitterAndSockets = function(stream){
     stream.on('connect',function(){
@@ -88,22 +101,23 @@ var SocketsManager = function(io, twitterStreamManager){
       //console.log("Tweet : " + tweet.text + ", " + JSON.stringify(tweet));
       if (tweet.coordinates != null) {
         // Remove unnecessary JSON data
-        var tmpTweet = reformatTweet(tweet);
-        // Creates a new Tweet based on the Mongoose schema and the post bo.dy
-        var newtweet = new Tweet(tmpTweet);
+        var broadcastTweet = reformatTweet(tweet);
+
+        var dbTweet = swapTweetCoordinates(broadcastTweet);
+        // Creates a new Tweet based on the Mongoose schema and the post body
+        var newtweet = new Tweet(dbTweet);
 
         // New Tweet is saved in the db.
         newtweet.save(function(err){
-          // console.log("Inside newtweet.save");
             if(err) {
               console.log("error = " + err);
               return;
             }
-            // If no errors are found, it responds with a JSON of the new tweet
+            // If no errors are found
             // console.log("successful save");
         });
 
-        io.emit('data',tmpTweet);
+        io.emit('data',broadcastTweet);
       }
     });
   };

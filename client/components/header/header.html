@@ -10,16 +10,26 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand logo" ng-href="/"><span>Topheman Dataviz</span></a>
+      <a class="navbar-brand logo" ng-href="/"><span>PokeSpawn - Where the Pokemon Spawn</span></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li ng-repeat="item in channelsMenu" ng-class="{active: isActive(item.link)}">
+       <!--  <li ng-repeat="item in channelsMenu | limitTo:1" ng-class="{active: isActive(item.link)}">
           <a ng-href="{{item.link}}">
             <span class="badge pull-right">{{data.channels[$index].count}}</span>
             {{item.title}}
+          </a>
+        </li> -->
+        <li ng-class="{active: isActive(item.link)}">
+          <a ng-href="/">
+            Battling
+          </a>
+        </li>
+        <li ng-class="{active: isActive(item.link)}">
+          <a ng-href="/">
+            Catching Techniques
           </a>
         </li>
       </ul>
@@ -29,15 +39,9 @@
 
 <ul class="site-networks">
   <li class="twitter">
-    <a href="https://twitter.com/topheman" title="@topheman on twitter">
+    <a href="https://twitter.com/jedihacks" title="@jedihacks on Twitter">
       <span class="icon"></span>
       <span class="desc">Twitter</span>
-    </a>
-  </li>
-  <li class="github">
-    <a href="https://github.com/topheman/topheman-datavisual" title="Fork on github">
-      <span class="icon"></span>
-      <span class="desc">Github</span>
     </a>
   </li>
 </ul>
