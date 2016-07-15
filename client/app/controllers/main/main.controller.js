@@ -9,10 +9,10 @@ angular.module('tophemanDatavizApp')
   $scope.displayState = displayState;
 
   $scope.$watchCollection('data', function(newData, oldData) {
-    console.log("Data has changed!, data: " + JSON.stringify(newData.channels[2]));
-    if (newData.channels[2].lastTweets[0]) {
-      var lat = newData.channels[2].lastTweets[0].coordinates[0];
-      var lon = newData.channels[2].lastTweets[0].coordinates[1];
+    console.log("Data has changed!, data: " + JSON.stringify(newData.channels[0]));
+    if (newData.channels[0].lastTweets[0]) {
+      var lat = newData.channels[0].lastTweets[0].coordinates[0];
+      var lon = newData.channels[0].lastTweets[0].coordinates[1];
       var tmpCoordinates = new google.maps.LatLng(lat, lon);
       // $scope.dataCount = newNames.length;
       var marker = new google.maps.Marker({

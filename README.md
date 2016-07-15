@@ -1,3 +1,18 @@
+pokespawn
+===================
+
+See the spawn points of Pokemon!
+
+Summary : 
+
+* [Presentation] (#presentation)
+* [Build Instructions] (#instructions)
+* [Todo List] (#todolist)
+
+
+
+grunt build && cd dist && git add . && git commit -m "Updating heroku repository" && git push heroku master
+
 topheman-datavisual
 ===================
 
@@ -12,7 +27,9 @@ Summary :
 
 ##Presentation
 
-The goal of this project was to mix **Angular** and **d3** - a JavaScript framework and a datavisualization library that should work very well together.
+The goal of this project was to gather the live stream of twitter, and map it to people speaking about pokemon and uploading pictures.
+
+The assumption is that if a person mentions Eevee and submits a photo, most likely that person has caught that Eevee.  With a high degree of certainty, this will give players *mostly* the correct information.
 
 ###twitter-stream-channels
 
@@ -54,15 +71,6 @@ I made four kinds of d3 directives : tree chart, pack chart, pie chart and bar c
 
 Whatever, the first thing you must understand in d3 are the enter/update/remove phases.
 
-###next
-
-The app can be improved. Currently, there is no persistance of the data on the backend and the app can't be scaled (the Twitter Stream is on the same process as socket.io - you can't open multiple streams on same Twitter API key).
-
-A cool thing would be to add some MongoDB to store the tweets, Redis to share the sockets states, so there would be one process dedicated to Twitter Stream and others that could be scaled at will, in charge of managing websockets.
-
-But one step at a time (and still, I started this project to practice Angular and d3 ;-) ) ...
-
-
 ##Instructions
 
 ###Requirements
@@ -88,11 +96,24 @@ But one step at a time (and still, I started this project to practice Angular an
 
 To heroku :
 
-The `grunt build` command will build the site in the `/dist` folder that will be your heroku git repo from where you'll push to deploy the site.
+1.  `grunt build` command will build the site in the `/dist` folder
+2.  cd dist/
+3.  git init (or connect repo) to heroku from here
+4.  [Configure the Twitter credention as env variables on heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#define-config-vars)
+5. heroku config:set NODE_ENV=production
 
-[Configure the Twitter credention as env variables on heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#define-config-vars)
+And on recurring builds...
+6. grunt build && cd dist && git add . && git commit -m "Updating heroku repository" && git push heroku master
 
-Aside of the credentials, remember to set the server in production mode `heroku config:set NODE_ENV=production`
+## Todo
+
+1.  Add a limit to # of past tweets the browser pulls up initially
+2.  Add a filter for Location & a boundary radius
+3.  Add a filter for type of Pokemon
+4.  Add a filter for Time Elapsed
+5.  Replace markers with Pokeball Markers
+6.  Replace Zoomed in Markers with Pokemon Pictures
+7.  Live stream of latest tweets as they come in
 
 ###Notes
 
@@ -108,38 +129,4 @@ The channels are configured server-side in `server/config/channelsDescription.js
 
 This is a list of the exact versions used in bower_components (in case there was a mix up with bower). I freezed the bower.json to avoid conflicts and regressions.
 
-`bower list`
-
-```
-topheman-datavisual
-├── angular#1.2.22 (1.3.0-rc.0 available)
-├─┬ angular-animate#1.2.22 (1.2.24-build.413+sha.9bf964f available, latest is 1.3.0-rc.0)
-│ └── angular#1.2.22 (latest is 1.3.0-rc.0)
-├─┬ angular-cookies#1.2.22 (1.3.0-rc.0 available)
-│ └── angular#1.2.22
-├─┬ angular-growl-v2#0.7.0
-│ └── angular#1.2.22 (1.3.0-rc.0 available)
-├─┬ angular-mocks#1.2.22 (1.3.0-rc.0 available)
-│ └── angular#1.2.22
-├─┬ angular-resource#1.2.22 (1.3.0-rc.0 available)
-│ └── angular#1.2.22
-├─┬ angular-route#1.2.22 (1.3.0-rc.0 available)
-│ └── angular#1.2.22
-├─┬ angular-sanitize#1.2.22 (1.3.0-rc.0 available)
-│ └── angular#1.2.22
-├─┬ angular-scenario#1.2.22 (1.3.0-rc.0 available)
-│ └── angular#1.2.22
-├─┬ angular-scroll#0.6.1
-│ └── angular#1.2.22 (1.2.24-build.413+sha.9bf964f available, latest is 1.3.0-rc.0)
-├─┬ angular-socket-io#0.6.0
-│ └── angular#1.2.22 (1.2.24-build.413+sha.9bf964f available, latest is 1.3.0-rc.0)
-├─┬ bootstrap#3.1.1 (latest is 3.2.0)
-│ └── jquery#1.11.1 (2.1.1 available)
-├── bootstrap-sass-official#3.1.1+2 (latest is 3.2.0+1)
-├── d3#3.4.11
-├── es5-shim#3.0.2 (latest is 4.0.3)
-├── font-awesome#4.1.0 (4.2.0 available)
-├── jquery#1.11.1 (latest is 2.1.1)
-├── json3#3.3.2
-└── lodash#2.4.1
 ```
