@@ -9,7 +9,7 @@ Summary :
 * [Build Instructions] (#instructions)
 * [Todo List] (#todolist)
 
-
+*Update
 
 grunt build && cd dist && git add . && git commit -m "Updating heroku repository" && git push heroku master
 
