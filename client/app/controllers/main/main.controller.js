@@ -11,15 +11,8 @@ angular.module('tophemanDatavizApp')
   $scope.$watchCollection('data', function(newData, oldData) {
     console.log("Data has changed!, data: " + JSON.stringify(newData.channels[0]));
     if (newData.channels[0].lastTweets[0]) {
-      var lat = newData.channels[0].lastTweets[0].coordinates[0];
-      var lon = newData.channels[0].lastTweets[0].coordinates[1];
-      var tmpCoordinates = new google.maps.LatLng(lat, lon);
-      // $scope.dataCount = newNames.length;
-      var marker = new google.maps.Marker({
-        map: $scope.map,
-        animation: google.maps.Animation.DROP,
-        position: tmpCoordinates
-      });
+      var tmpCoordinates = new google.maps.LatLng(newData.channels[0].lastTweets[0].coordinates[0], newData.channels[0].lastTweets[0].coordinates[1]);
+      createMarker(newData.channels[0].lastTweets[0].keywords[0], tmpCoordinates);
     }
   });
 
@@ -64,14 +57,14 @@ angular.module('tophemanDatavizApp')
 
     isImage(pokemonIconUrl).then(function(result) {
       if (result) {
-        console.log("EXISTS: " + pokemonIconUrl);
+        // console.log("EXISTS: " + pokemonIconUrl);
         //leave pokemonIconURL as it is      
       } else {
-        console.log("DOESNT EXIST: " + pokemonIconUrl);
+        // console.log("DOESNT EXIST: " + pokemonIconUrl);
         pokemonIconUrl = "assets/images/pokeball_marker.png";
       }
 
-      console.log("Creating " + pokemonIconUrl);
+      // console.log("Creating " + pokemonIconUrl);
       var iconValidated = {
         url:  pokemonIconUrl,
         scaledSize: new google.maps.Size(25, 25), // scaled size
