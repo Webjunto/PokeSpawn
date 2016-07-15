@@ -1,30 +1,58 @@
-<div class="view-main" style="width:100%;">
+<div class="view-main" >
   
   <!-- <div class="panel panel-default">
     <div class="panel-body">
         <div class="title pull-left">Pokemon Live Spawn Points... {{data.count}} tweet{{data.count > 1 ? 's' : ''}} captured</div>
-      
-       
     </div>
   </div> -->
 
   <div class="row content">
     <!-- Google Map -->
-    <div class="col-md-10">
-        <div id="map" style="width:100%;height:500px;"><img src="holder.js/645x645"></div>
+    <div class="col-md-8">
+        <div id="map" style="width:100%;height:600px;"><img src="holder.js/645x645"></div>
     </div>
-    <div class="col-md-2">
-      <h2 id="infos">PokeSpawn</h2>
-      <p>We have to find them all, so let's crowd source the effort! </p>
-      
-      <p>
-        We pull tweets from around the world with the name of the pokemon, or hashtag #pokespawn<br> 
-      </p>
-      <p class="twitter-button-wrapper">
-        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://pokespawn.com" data-text="Track your Pokemon at PokeSpawn!" data-via="jedihacks" data-size="large" data-count="none">Share this site!</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-      </p>
-    </div>
+
+    <!-- Side Panel -->
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <!-- Panel Title -->
+                <div class="panel-heading">
+                    <h2 class="panel-title text-center">Catch them all! <span class="glyphicon glyphicon-map-marker"></span></h2>
+                </div>
+                <!-- Panel Body -->
+                <div class="panel-body">
+                   <img src="assets/images/pikachu_hello.png" class="pull-left" style="width:50px;height:50px;margin-right:5px;"><p>We have to find them all, so let's crowd source the effort and all chip in. </p>
+                   <p> We pull tweets from around the world with the <b>name</b> of the pokemon and a <b>picture</b> of the capture. For better results, use #pokespawn</p>
+                   <p> <i>Example:  "I just caught an <b>Eevee</b>!! Woot I rock yo!  #pokespawn [post image]"</i></p>
+                    <!-- Creates Form (novalidate disables HTML validation, Angular will control) -->
+                    <form name ="addForm" novalidate>
+                        <!-- Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope -->
+                        <div class="form-group">
+                            <label for="searchname">Search by Name </label>
+                            <input type="text" class="form-control" id="username" placeholder="Pikachu" ng-model="formData.searchname" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="searchlocation">Search by Location </label>
+                            <input type="text" class="form-control" id="username" placeholder="Philadelphia" ng-model="formData.searchlocation" required>
+                        </div>
+                      
+                        <div class="form-group">
+                            <label for="age">Age of Post <span class="badge">In Days</span></label>
+                            <input type="number" class="form-control" id="age" placeholder="all time" ng-model="formData.age" required>
+                        </div>
+                       
+                        <!-- Submit button. Note that its tied to createUser() function from addCtrl. Also note ng-disabled logic which prevents early submits.  -->
+                        <button type="submit" class="btn btn-danger btn-block" ng-disabled="addForm.$invalid">Submit</button>
+                        <div style="padding-top:10px;">
+                          <p class="twitter-button-wrapper">
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://pokespawn.com" data-text="Track your Pokemon at PokeSpawn!" data-via="jedihacks" data-size="large" data-count="none">Share this site!</a>
+                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                          </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
   </div>
   <debug-state ng-if="false"></debug-state>
     <!-- <pack-chart-channels data-data="data" ng-if="displayState.packChartChannels"></pack-chart-channels> -->

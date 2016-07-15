@@ -25,14 +25,14 @@
       <!-- endinjector -->
     <!-- endbuild -->
   </head>
-  <body ng-app="tophemanDatavizApp" class="">
+  <body ng-app="tophemanDatavizApp" class="" style="width:100%;background-image:url(assets/images/all_pokemon.png)">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <header ng-include="'components/header/header.html'" ng-controller="HeaderCtrl"></header>
     
     <!-- Add your site or application content here -->
-    <div ng-view="" class="view-fade container"></div>
+    <div ng-view="" class="view-fade container" ></div>
 
     <script type="text/ng-template" id="templates/growl/growl.html">
       <div class="growl-container" ng-class="wrapperClasses()">

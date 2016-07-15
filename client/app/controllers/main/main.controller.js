@@ -20,7 +20,7 @@ angular.module('tophemanDatavizApp')
 
   var mapOptions = {
     center: newyork,
-    zoom: 1,
+    zoom: 2,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
