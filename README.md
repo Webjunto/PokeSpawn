@@ -114,6 +114,7 @@ And on recurring builds...
 5.  Replace markers with Pokeball Markers
 6.  Replace Zoomed in Markers with Pokemon Pictures
 7.  Live stream of latest tweets as they come in
+8.  Add Mongoose connection string
 
 ###Notes
 

@@ -2,7 +2,7 @@
 
 angular.module('tophemanDatavizApp')
 
-.controller('MainCtrl', function($scope, $http, persistance, displayState) {
+.controller('MainCtrl', function($scope, $http, $q, persistance, displayState) {
 
   $scope.channelsDescription = persistance.getData().channelsDescription;
   $scope.data = persistance.getData();
@@ -48,24 +48,14 @@ angular.module('tophemanDatavizApp')
   //Wait until the map is loaded
   google.maps.event.addListenerOnce($scope.map, 'idle', function(){
     console.log("Google Maps Idle");
+    var getTweets = window.location + "tweets";
 
-    var getURL = window.location + "tweets";
-    console.log("GET URL = " + getURL);
-    $http.get(getURL) .then(function(response){ 
-      
+    $http.get(getTweets).then(function(response){ 
       for (var r in response.data) {
-        // console.log("*******" + JSON.stringify(response.data[r]));
+        var tmpCoordinates = new google.maps.LatLng(response.data[r].coordinates[0], response.data[r].coordinates[1]);
 
-        var lat = response.data[r].coordinates[0];
-        var lon = response.data[r].coordinates[1];
-        var tmpCoordinates = new google.maps.LatLng(lat, lon);
-
-        var marker = new google.maps.Marker({
-          map: $scope.map,
-          animation: google.maps.Animation.DROP,
-          position: tmpCoordinates
-        });
-
+        createMarker(response.data[r].keywords[0], tmpCoordinates);
+      
         // var infoWindow = new google.maps.InfoWindow({
         //   content: response.data[r].keywords[0]
         // });
@@ -76,5 +66,51 @@ angular.module('tophemanDatavizApp')
       }
     });
   });
+
+  function createMarker(pokemon, tmpCoordinates) {
+
+    var pokemonIconUrl =  "assets/images/pokemarkers/" + pokemon + ".png";
+
+    isImage(pokemonIconUrl).then(function(result) {
+      if (result) {
+        console.log("EXISTS: " + pokemonIconUrl);
+        //leave pokemonIconURL as it is      
+      } else {
+        console.log("DOESNT EXIST: " + pokemonIconUrl);
+        pokemonIconUrl = "assets/images/pokeball_marker.png";
+      }
+
+      console.log("Creating " + pokemonIconUrl);
+      var iconValidated = {
+        url:  pokemonIconUrl,
+        scaledSize: new google.maps.Size(25, 25), // scaled size
+        origin: new google.maps.Point(0,0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+      };
+
+      var marker = new google.maps.Marker({
+        map: $scope.map,
+        animation: google.maps.Animation.DROP,
+        position: tmpCoordinates,
+        icon : iconValidated
+      });
+    });
+  }
+
+  function isImage(src) {
+
+    var deferred = $q.defer();
+
+    var image = new Image();
+    image.onerror = function() {
+        deferred.resolve(false);
+    };
+    image.onload = function() {
+        deferred.resolve(true);
+    };
+    image.src = src;
+
+    return deferred.promise;
+  }
   // end code to get map running //
 });
