@@ -60,7 +60,7 @@ angular.module('tophemanDatavizApp')
 
   function createMarker(pokemon, tmpCoordinates) {
 
-    var pokemonIconUrl =  "assets/images/pokemarkers/" + pokemon + ".png";
+    var pokemonIconUrl =  "assets/images/" + pokemon + ".png";
 
     isImage(pokemonIconUrl).then(function(result) {
       if (result) {

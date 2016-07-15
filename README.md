@@ -111,8 +111,6 @@ And on recurring builds...
 2.  Add a filter for Location & a boundary radius
 3.  Add a filter for type of Pokemon
 4.  Add a filter for Time Elapsed
-5.  Replace markers with Pokeball Markers
-6.  Replace Zoomed in Markers with Pokemon Pictures
 7.  Live stream of latest tweets as they come in
 8.  Add Mongoose connection string
 
