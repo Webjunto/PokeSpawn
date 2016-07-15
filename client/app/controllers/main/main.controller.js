@@ -53,16 +53,7 @@ angular.module('tophemanDatavizApp')
     $http.get(getTweets).then(function(response){ 
       for (var r in response.data) {
         var tmpCoordinates = new google.maps.LatLng(response.data[r].coordinates[0], response.data[r].coordinates[1]);
-
         createMarker(response.data[r].keywords[0], tmpCoordinates);
-      
-        // var infoWindow = new google.maps.InfoWindow({
-        //   content: response.data[r].keywords[0]
-        // });
-  
-        // google.maps.event.addListener(marker, 'click', function () {
-        //     infoWindow.open($scope.map, marker);
-        // }); 
       }
     });
   });
@@ -94,6 +85,13 @@ angular.module('tophemanDatavizApp')
         position: tmpCoordinates,
         icon : iconValidated
       });
+
+      google.maps.event.addListener(marker, 'click', function () {
+        var infoWindow = new google.maps.InfoWindow({
+          content: pokemon
+        });
+        infoWindow.open($scope.map, marker);
+      }); 
     });
   }
 
