@@ -9,7 +9,7 @@ var TweetSchema = new Schema({
     text: {type: String, required: true},
     screen_name: {type: String, required: true},
     profile_image_url: {type: String, required: true},
-    post_picture: {type: String, requied: true},
+    media_url_https: {type: String, requied: true},
     coordinates: {type: [Number], required: true}, // [Long, Lat] -- Different than Google Maps (Lat, Long)
     // $channels: {type: [Number], required: true}, // 
     keywords: {type: [String], required: true}, // 

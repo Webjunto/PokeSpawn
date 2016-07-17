@@ -15,7 +15,7 @@ angular.module('tophemanDatavizApp')
     console.log("Data has changed!, data: " + JSON.stringify(newData.channels[0]));
     if (newData.channels[0].lastTweets[0]) {
       var tmpCoordinates = new google.maps.LatLng(newData.channels[0].lastTweets[0].coordinates[0], newData.channels[0].lastTweets[0].coordinates[1]);
-      gservice.createMarker(newData.channels[0].lastTweets[0].keywords[0], tmpCoordinates);
+      gservice.createMarker(newData.channels[0].lastTweets[0], tmpCoordinates);
     }
   });
 
@@ -30,7 +30,7 @@ angular.module('tophemanDatavizApp')
         var promise = new Promise(function(resolve, reject) {
           // do a thing, possibly async, then…
           var tmpCoordinates = new google.maps.LatLng(response.data[r].coordinates[0], response.data[r].coordinates[1]);
-          if (gservice.createMarker(response.data[r].keywords[0], tmpCoordinates)) {
+          if (gservice.createMarker(response.data[r], tmpCoordinates)) {
             resolve("Creating marker worked");
           }
           else {

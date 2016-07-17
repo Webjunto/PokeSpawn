@@ -61,7 +61,7 @@ var SocketsManager = function(io, twitterStreamManager){
       created_at : tweet.created_at,
       coordinates : tweet.coordinates["coordinates"],
       profile_image_url:  tweet.user.profile_image_url,
-      post_picture: tweet.post_picture,
+      media_url_https: tweet.media_url_https,
       $channels : tweet.$channels,
       $keywords : tweet.$keywords,
       keywords: tweet.$keywords //This is for the model, can't use $
@@ -123,7 +123,7 @@ var SocketsManager = function(io, twitterStreamManager){
         }
 
         // Add the Picture URL to the Tweet
-        tweet.picture_url = tmpImageURL;
+        tweet.media_url_https = tmpImageURL;
         // Remove unnecessary JSON data
         var broadcastTweet = reformatTweet(tweet);
 
