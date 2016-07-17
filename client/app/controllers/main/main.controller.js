@@ -2,40 +2,22 @@
 
 angular.module('tophemanDatavizApp')
 
-.controller('MainCtrl', function($scope, $http, $q, persistance, displayState) {
+.controller('MainCtrl', function($scope, $http, $q, gservice, persistance, displayState) {
 
   $scope.channelsDescription = persistance.getData().channelsDescription;
   $scope.data = persistance.getData();
   $scope.displayState = displayState;
 
+  //Initialize Map 
+  $scope.map = gservice.createMap();
+
   $scope.$watchCollection('data', function(newData, oldData) {
     console.log("Data has changed!, data: " + JSON.stringify(newData.channels[0]));
     if (newData.channels[0].lastTweets[0]) {
       var tmpCoordinates = new google.maps.LatLng(newData.channels[0].lastTweets[0].coordinates[0], newData.channels[0].lastTweets[0].coordinates[1]);
-      createMarker(newData.channels[0].lastTweets[0].keywords[0], tmpCoordinates);
+      gservice.createMarker(newData.channels[0].lastTweets[0].keywords[0], tmpCoordinates);
     }
   });
-
-  var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
-
-  var mapOptions = {
-    center: newyork,
-    zoom: 2,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
-
-  $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-  $scope.map.set('styles', [
-  {
-    "featureType": "all",
-    "elementType": "labels",
-    "stylers": [
-    {
-      "visibility": "off"
-    }
-    ]
-  }]);
 
   // begin code to drop a marker & create info window (this MUST be inside where the map loads: http://stackoverflow.com/questions/7058094/google-maps-api-cannot-read-property-e3-of-undefined) //
   //Wait until the map is loaded
@@ -48,7 +30,7 @@ angular.module('tophemanDatavizApp')
         var promise = new Promise(function(resolve, reject) {
           // do a thing, possibly async, then…
           var tmpCoordinates = new google.maps.LatLng(response.data[r].coordinates[0], response.data[r].coordinates[1]);
-          if (createMarker(response.data[r].keywords[0], tmpCoordinates)) {
+          if (gservice.createMarker(response.data[r].keywords[0], tmpCoordinates)) {
             resolve("Creating marker worked");
           }
           else {
@@ -59,57 +41,5 @@ angular.module('tophemanDatavizApp')
     });
   });
 
-  function createMarker(pokemon, tmpCoordinates) {
-
-    var pokemonIconUrl =  "assets/images/" + pokemon + ".png";
-
-    isImage(pokemonIconUrl).then(function(result) {
-      if (result) {
-        // console.log("EXISTS: " + pokemonIconUrl);
-      } else {
-        // console.log("DOESNT EXIST: " + pokemonIconUrl);
-        pokemonIconUrl = "assets/images/pokeball_marker.png";
-      }
-
-      // console.log("Creating " + pokemonIconUrl);
-      var iconValidated = {
-        url:  pokemonIconUrl,
-        scaledSize: new google.maps.Size(25, 25), // scaled size
-        origin: new google.maps.Point(0,0), // origin
-        anchor: new google.maps.Point(0, 0) // anchor
-      };
-
-      var marker = new google.maps.Marker({
-        map: $scope.map,
-        animation: google.maps.Animation.DROP,
-        position: tmpCoordinates,
-        icon : iconValidated
-      });
-
-      google.maps.event.addListener(marker, 'click', function () {
-        var infoWindow = new google.maps.InfoWindow({
-          content: pokemon
-        });
-        infoWindow.open($scope.map, marker);
-      }); 
-    });
-    return true;
-  }
-
-  function isImage(src) {
-
-    var deferred = $q.defer();
-
-    var image = new Image();
-    image.onerror = function() {
-        deferred.resolve(false);
-    };
-    image.onload = function() {
-        deferred.resolve(true);
-    };
-    image.src = src;
-
-    return deferred.promise;
-  }
-  // end code to get map running //
+  
 });
