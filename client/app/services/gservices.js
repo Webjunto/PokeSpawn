@@ -30,7 +30,8 @@ angular.module('tophemanDatavizApp')
       return Map;
     }
 
-    var createMarker = function(tweet, tmpCoordinates) {
+    var createMarker = function(tweet) {
+      var tmpCoordinates = new google.maps.LatLng(tweet.coordinates[0], tweet.coordinates[1]);
       var pokemonIconUrl =  "assets/images/" + tweet.keywords[0] + ".png";
       isImage(pokemonIconUrl).then(function(result) {
         if (result) { /*console.log("EXISTS: " + pokemonIconUrl);*/} 

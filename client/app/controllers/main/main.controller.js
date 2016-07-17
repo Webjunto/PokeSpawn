@@ -14,8 +14,7 @@ angular.module('tophemanDatavizApp')
   $scope.$watchCollection('data', function(newData, oldData) {
     console.log("Data has changed!, data: " + JSON.stringify(newData.channels[0]));
     if (newData.channels[0].lastTweets[0]) {
-      var tmpCoordinates = new google.maps.LatLng(newData.channels[0].lastTweets[0].coordinates[0], newData.channels[0].lastTweets[0].coordinates[1]);
-      gservice.createMarker(newData.channels[0].lastTweets[0], tmpCoordinates);
+      gservice.createMarker(newData.channels[0].lastTweets[0]);
     }
   });
 
@@ -29,8 +28,7 @@ angular.module('tophemanDatavizApp')
       for (var r in response.data) {
         var promise = new Promise(function(resolve, reject) {
           // do a thing, possibly async, then…
-          var tmpCoordinates = new google.maps.LatLng(response.data[r].coordinates[0], response.data[r].coordinates[1]);
-          if (gservice.createMarker(response.data[r], tmpCoordinates)) {
+          if (gservice.createMarker(response.data[r])) {
             resolve("Creating marker worked");
           }
           else {
@@ -41,5 +39,94 @@ angular.module('tophemanDatavizApp')
     });
   });
 
-  
+  /* Query Controlls */
+
+  // Initializes Variables
+  // ----------------------------------------------------------------------------
+  $scope.formData = {};
+  var queryBody = {};
+
+  // Functions
+  // ----------------------------------------------------------------------------
+
+  // Get User's actual coordinates based on HTML5 at window load
+  // geolocation.getLocation().then(function(data){
+  //   coords = {lat:data.coords.latitude, long:data.coords.longitude};
+  //   // Set the latitude and longitude equal to the HTML5 coordinates
+  //   $scope.formData.longitude = parseFloat(coords.long).toFixed(3);
+  //   $scope.formData.latitude = parseFloat(coords.lat).toFixed(3);
+  // });
+
+  // Get coordinates based on mouse click. When a click event is detected....
+  // $rootScope.$on("clicked", function(){
+  //   // Run the gservice functions associated with identifying coordinates
+  //   $scope.$apply(function(){
+  //       $scope.formData.latitude = parseFloat(gservice.clickLat).toFixed(3);
+  //       $scope.formData.longitude = parseFloat(gservice.clickLong).toFixed(3);
+  //   });
+  // });
+
+  // Take query parameters and incorporate into a JSON queryBody
+  $scope.queryTweets = function(){
+
+    // Assemble Query Body
+    // longitude: parseFloat($scope.formData.longitude),
+    // latitude: parseFloat($scope.formData.latitude),
+    // distance: parseFloat($scope.formData.distance),
+    queryBody = {
+      pokemon: $scope.formData.pokemon,
+      minAge: $scope.formData.minAge,
+      maxAge: $scope.formData.maxAge
+    };
+
+    if (queryBody.pokemon) {
+      queryBody.pokemon = queryBody.pokemon.toLowerCase()
+    }
+
+    console.log("Query = " + JSON.stringify(queryBody));
+    // Post the queryBody to the /query POST route to retrieve the filtered results
+    $http.post('/query', queryBody)
+
+      // Store the filtered results in queryResults
+      .success(function(queryResults)
+      {
+        // Query Body and Result Logging
+        console.log("QueryBody:");
+        console.log(queryBody);
+        // Count the number of records retrieved for the panel-footer
+        $scope.queryCount = queryResults.length;
+        console.log("Query count = " + $scope.queryCount);
+
+        $scope.map = gservice.createMap();
+
+        google.maps.event.addListenerOnce($scope.map, 'idle', function(){
+          console.log("Google Maps Idle");
+          var getTweets = window.location + "tweets";
+
+          for (var r in queryResults) {
+            var promise = new Promise(function(resolve, reject) {
+              console.log("...");
+              console.log(JSON.stringify(queryResults[r]));
+              console.log("...");
+              // do a thing, possibly async, then…
+              
+              if (gservice.createMarker(queryResults[r])) {
+                resolve("Creating marker worked");
+              }
+              else {
+                reject(Error("Creating marker didn't work!"));
+              }
+            });
+          }
+        });
+
+
+      })
+      .error(function(queryResults){
+          console.log('Error ' + queryResults);
+      })
+    };
+
+
+    /* End Query Controls */
 });
