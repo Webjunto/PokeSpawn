@@ -101,18 +101,22 @@ var SocketsManager = function(io, twitterStreamManager){
     stream.on('channels',function(tweet){
       if (tweet.coordinates != null) {
         console.log("");
-        console.log("Tweet coordinates pass : " + tweet.text );
+       // console.log("Tweet coordinates pass : " + JSON.stringify(tweet));
         var containsImageHTTPS = tweet.text.indexOf("https://t.co/");  //This is where Twitter posts images
         var containsImageHTTP = tweet.text.indexOf("http://t.co/");  //This is where Twitter posts images
         var tmpImageURL = null;
 
-        if (containsImageHTTPS > -1){
+        if (tweet.entities["media"]) {
+            tmpImageURL = tweet.entities.media[0].media_url_https;
+            console.log ("Found acceptable Tweet w/ Image (media_url_https) : " + tmpImageURL + ", and text : " + tweet.text);
+        }
+        else if (containsImageHTTPS > -1){
           tmpImageURL = tweet.text.substring(containsImageHTTPS);
-          console.log("Found acceptable Tweet w/ image " + tmpImageURL);
+          console.log("Found acceptable Tweet w/ image (https)" + tmpImageURL);
         } else if (containsImageHTTP > -1) {
           tmpImageURL = tweet.text.substring(containsImageHTTP);
-          console.log("Found acceptable Tweet w/ image " + tmpImageURL);
-        }        
+          console.log("Found acceptable Tweet w/ image (http)" + tmpImageURL);
+        }
         else {
           console.log("No suitable tweet w/ image found");
           return;
