@@ -113,6 +113,7 @@ And on recurring builds...
 4.  Add a filter for Time Elapsed
 7.  Live stream of latest tweets as they come in
 8.  Add Mongoose connection string
+9.  Grunt rename images did not work because had dynamic string for pokemon icons.  Get this working properly.  I just commented it out.  It's important for Caching purposes.
 
 ###Notes
 
