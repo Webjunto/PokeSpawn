@@ -75,7 +75,7 @@ angular.module('tophemanDatavizApp')
               '<br><b>Pokemon</b>: ' + tweet.keywords[0] +
               '<br><b>Posted</b>: ' + parseTwitterDate(tweet.created_at) +
               '<br><b>Text</b>: ' + tweet.text +
-              '<br><b>Image</b>: <img src=\"' + tweet.media_url_https + '\" style=\"height:42px;width:42px;\">' +
+              '<br><b>Image</b>: <img src=\"' + tweet.profile_image_url + '\" style=\"height:42px;width:42px;\">' +
               '<br><b>Coordinates</b>:' + JSON.stringify(tweet.coordinates) +
               '</p>';
           var infoWindow = new google.maps.InfoWindow({

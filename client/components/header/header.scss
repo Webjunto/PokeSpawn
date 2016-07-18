@@ -9,7 +9,7 @@ header .container-fluid{
 /** header logo*/
 .navbar-brand.logo{
   margin-right:10px;
-  background-image: url(/assets/images/tophemanjs-angular.png);
+  background-image: url(/assets/images/pokespawn-logo.png);
   width: 215px;
   height: 50px;
   span {
@@ -25,7 +25,7 @@ only screen and (        min-device-pixel-ratio: 2),
 only screen and (                min-resolution: 192dpi),
 only screen and (                min-resolution: 2dppx) {
   .navbar-brand.logo{
-    background-image: url(/assets/images/tophemanjs-angular-retina.png);
+    background-image: url(/assets/images/pokespawn-logo-retina.png);
     background-size: 215px 50px;
   }
 }
