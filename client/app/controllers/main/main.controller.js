@@ -68,15 +68,20 @@ angular.module('tophemanDatavizApp')
 
   // Take query parameters and incorporate into a JSON queryBody
   $scope.queryTweets = function(){
-
+    /* Get our current map state so we can return here upon successful query */
+    var tmpCenter = $scope.map.getCenter();
+    var tmpZoom = $scope.map.getZoom();
+    console.log("MAP CENTER: " + JSON.stringify(tmpCenter) + " and Zoom = " + tmpZoom);
+    console.log("Lat = " + tmpCenter.lat());
+    
     // Assemble Query Body
-    // longitude: parseFloat($scope.formData.longitude),
-    // latitude: parseFloat($scope.formData.latitude),
-    // distance: parseFloat($scope.formData.distance),
     queryBody = {
       pokemon: $scope.formData.pokemon,
       minAge: $scope.formData.minAge,
-      maxAge: $scope.formData.maxAge
+      maxAge: $scope.formData.maxAge,
+      latitude: parseFloat(tmpCenter.lat()),
+      longitude: parseFloat(tmpCenter.lng()),
+      distance: parseFloat($scope.formData.distance) //100 miles default
     };
 
     if (queryBody.pokemon) {
@@ -96,20 +101,16 @@ angular.module('tophemanDatavizApp')
         // Count the number of records retrieved for the panel-footer
         $scope.queryCount = queryResults.length;
         console.log("Query count = " + $scope.queryCount);
-
-        $scope.map = gservice.createMap();
+  
+        $scope.map = gservice.createMap(tmpCenter, tmpZoom);
+        /* End Reset the Map*/ 
 
         google.maps.event.addListenerOnce($scope.map, 'idle', function(){
-          console.log("Google Maps Idle");
-          var getTweets = window.location + "tweets";
-
           for (var r in queryResults) {
             var promise = new Promise(function(resolve, reject) {
-              console.log("...");
-              console.log(JSON.stringify(queryResults[r]));
-              console.log("...");
-              // do a thing, possibly async, then…
-              
+              // console.log("...");
+              // console.log(JSON.stringify(queryResults[r]));
+              // console.log("...");
               if (gservice.createMarker(queryResults[r])) {
                 resolve("Creating marker worked");
               }
@@ -119,11 +120,9 @@ angular.module('tophemanDatavizApp')
             });
           }
         });
-
-
       })
       .error(function(queryResults){
-          console.log('Error ' + queryResults);
+          console.error('Error in Query' + queryResults);
       })
     };
 

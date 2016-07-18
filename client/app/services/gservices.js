@@ -7,13 +7,24 @@ angular.module('tophemanDatavizApp')
     //Instantiate current Date for Marker
     var Today = new Date();
 
-    var createMap = function () {
+    var createMap = function (_centerOfMap, _zoomLevel) {
       //Initial Zoom Point
-      var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
-
+      var zoomPoint;
+      var zoomLevel;
+      if (_centerOfMap) {
+        zoomPoint = _centerOfMap;
+      } else {
+        zoomPoint = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+      }
+      
+      if (_zoomLevel) { 
+        zoomLevel = _zoomLevel;
+      } else {
+        zoomLevel = 2;
+      }
       var mapOptions = {
-        center: newyork,
-        zoom: 2,
+        center: zoomPoint,
+        zoom: zoomLevel,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
@@ -31,7 +42,9 @@ angular.module('tophemanDatavizApp')
     }
 
     var createMarker = function(tweet) {
-      var tmpCoordinates = new google.maps.LatLng(tweet.coordinates[0], tweet.coordinates[1]);
+      // console.error("TWEET: " + JSON.stringify(tweet));
+      // Let's put this backwords to make up for Database
+      var tmpCoordinates = new google.maps.LatLng(tweet.coordinates[1], tweet.coordinates[0]);
       var pokemonIconUrl =  "assets/images/" + tweet.keywords[0] + ".png";
       isImage(pokemonIconUrl).then(function(result) {
         if (result) { /*console.log("EXISTS: " + pokemonIconUrl);*/} 
@@ -63,6 +76,7 @@ angular.module('tophemanDatavizApp')
               '<br><b>Posted</b>: ' + parseTwitterDate(tweet.created_at) +
               '<br><b>Text</b>: ' + tweet.text +
               '<br><b>Image</b>: <img src=\"' + tweet.media_url_https + '\" style=\"height:42px;width:42px;\">' +
+              '<br><b>Coordinates</b>:' + JSON.stringify(tweet.coordinates) +
               '</p>';
           var infoWindow = new google.maps.InfoWindow({
             content: contentString,

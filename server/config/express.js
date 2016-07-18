@@ -35,14 +35,19 @@ module.exports = function(app) {
     app.set('appPath', config.root + '/public');
     app.use(morgan('dev'));
 
-    mongoose.connect("mongodb://heroku_x4rm9c3c:3j0t2u324t533jg3gf2moo9q74@ds021979.mlab.com:21979/heroku_x4rm9c3c");
-
+    //MongoDBConnection
+    // Old server
+    // mongoose.connect("mongodb://heroku_sbc5jf99:d7f9e1atop1uglohcm43ro435p@ds023565-a0.mlab.com:23565,ds023565-a1.mlab.com:23565/heroku_sbc5jf99?replicaSet=rs-ds023565");
+    // Correct server
+    mongoose.connect("mongodb://jedi-user:xfg2d56xs@ds023585-a0.mlab.com:23585,ds023585-a1.mlab.com:23585/heroku_x4rm9c3c?replicaSet=rs-ds023585");    
   }
 
   if ('development' === env || 'development-online' === env || 'test' === env) {
     // Sets the connection to MongoDB
-    mongoose.connect("mongodb://localhost/PokemonSpawnDev");
-    
+    // mongoose.connect("mongodb://localhost/PokemonSpawnDev");
+    //mongoose.connect("mongodb://heroku_sbc5jf99:d7f9e1atop1uglohcm43ro435p@ds023565-a0.mlab.com:23565,ds023565-a1.mlab.com:23565/heroku_sbc5jf99?replicaSet=rs-ds023565");
+
+    mongoose.connect("mongodb://jedi-user:xfg2d56xs@ds023585-a0.mlab.com:23585,ds023585-a1.mlab.com:23585/heroku_x4rm9c3c?replicaSet=rs-ds023585");
     app.use(require('connect-livereload')());
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, 'client')));

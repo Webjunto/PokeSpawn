@@ -47,9 +47,11 @@ module.exports = function(app, socketManager) {
     // ...include filter by Max Distance (converting miles to meters)
     if(distance){
       // Using MongoDB's geospatial querying features. (Note how coordinates are set [long, lat]
-      query = query.where('location').near({ center: {type: 'Point', coordinates: [long, lat]},
+      query = query.where('coordinates').near({ 
+        center: 
+          {coordinates: [long,lat], type: 'Point'},
       // Converting meters to miles. Specifying spherical geometry (for globe)
-      maxDistance: distance * 1609.34, spherical: true});
+          maxDistance: distance * 1609.34, spherical: true});
     }
 
     // ...include filter by Gender (all options)
@@ -70,10 +72,13 @@ module.exports = function(app, socketManager) {
     }
 
     query.limit(1000);
-    
+
     // Execute Query and Return the Query Results
     query.exec(function(err, tweets){
-      if(err){ res.send(err); }
+      if(err){ 
+        console.error(JSON.stringify(err));
+        res.send(err); 
+      }
       // If no errors, respond with a JSON of all tweets that meet the criteria
       res.json(tweets);
     });

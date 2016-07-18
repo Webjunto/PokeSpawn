@@ -10,7 +10,7 @@ var TweetSchema = new Schema({
     screen_name: {type: String, required: true},
     profile_image_url: {type: String, required: true},
     media_url_https: {type: String, requied: true},
-    coordinates: {type: [Number], required: true}, // [Long, Lat] -- Different than Google Maps (Lat, Long)
+    coordinates: {type: [Number], index: '2dsphere', required: true}, // [Long, Lat] -- Different than Google Maps (Lat, Long)
     // $channels: {type: [Number], required: true}, // 
     keywords: {type: [String], required: true}, // 
     created_at: {type: Date, default: Date.now},
@@ -28,8 +28,8 @@ TweetSchema.pre('save', function(next){
 });
 
 // Indexes this schema in 2dsphere format (critical for running proximity searches)
-TweetSchema.index({location: '2dsphere'});
+TweetSchema.index({coordinates: '2dsphere'});
 
 // Exports the TweetSchema for use elsewhere. Sets the MongoDB collection to be used as: "jedi-users" 
 // (Note: jedi-users” isn’t a typo. Mongoose adds an extra letter ‘s’ when creating collections).
-module.exports = mongoose.model('jedi-user', TweetSchema);
+module.exports = mongoose.model('jediusers', TweetSchema);
