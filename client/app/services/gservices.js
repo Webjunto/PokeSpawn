@@ -70,13 +70,12 @@ angular.module('tophemanDatavizApp')
           console.log("Tweet pic: " + tweet.media_url_https);
            // Create popup windows for each record
           var  contentString =
-              // '<p><b>User</b>: <a href=\"www.twitter.com/' + tweet.screen_name + '\" > @' + tweet.screen_name + '</a>'
               '<p><b>User</b>: @' + tweet.screen_name +  
               '<br><b>Pokemon</b>: ' + tweet.keywords[0] +
               '<br><b>Posted</b>: ' + parseTwitterDate(tweet.created_at) +
               '<br><b>Text</b>: ' + tweet.text +
               '<br><b>Image</b>: <img src=\"' + tweet.profile_image_url + '\" style=\"height:42px;width:42px;\">' +
-              '<br><b>Coordinates</b>:' + JSON.stringify(tweet.coordinates) +
+              '<p><b>Twitter Post</b>: <a href=\"http://twitter.com/' + tweet.screen_name + '\" > @' + tweet.screen_name + '</a>' +
               '</p>';
           var infoWindow = new google.maps.InfoWindow({
             content: contentString,
