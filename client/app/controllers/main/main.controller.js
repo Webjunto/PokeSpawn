@@ -72,7 +72,6 @@ angular.module('tophemanDatavizApp')
     var tmpCenter = $scope.map.getCenter();
     var tmpZoom = $scope.map.getZoom();
     console.log("MAP CENTER: " + JSON.stringify(tmpCenter) + " and Zoom = " + tmpZoom);
-    console.log("Lat = " + tmpCenter.lat());
     
     // Assemble Query Body
     queryBody = {

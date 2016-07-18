@@ -67,19 +67,6 @@ var SocketsManager = function(io, twitterStreamManager){
       keywords: tweet.$keywords //This is for the model, can't use $
     };
   };
-
-  // MongoDB evaluates Long/Lat instead of Lat/Long.  So for DB only swap them.
-  var swapTweetCoordinates = function (tweet) {
-    //console.log("swapTweetCoordinates... " +  JSON.stringify(tweet.coordinates));
-
-    var tmpLat = tweet.coordinates[0];
-    var tmpLon = tweet.coordinates[1];
-
-    tweet.coordinates[0] = tmpLon;
-    tweet.coordinates[1] = tmpLat;
-    //console.log("SWAPPED... " +  JSON.stringify(tweet.coordinates));
-    return tweet;
-  }
   
   var manageEventsBetweenTwitterAndSockets = function(stream){
     stream.on('connect',function(){
@@ -100,7 +87,6 @@ var SocketsManager = function(io, twitterStreamManager){
     });
     stream.on('channels',function(tweet){
       if (tweet.coordinates != null) {
-        console.log("");
        // console.log("Tweet coordinates pass : " + JSON.stringify(tweet));
         var containsImageHTTPS = tweet.text.indexOf("https://t.co/");  //This is where Twitter posts images
         var containsImageHTTP = tweet.text.indexOf("http://t.co/");  //This is where Twitter posts images
@@ -108,40 +94,51 @@ var SocketsManager = function(io, twitterStreamManager){
 
         if (tweet.entities["media"]) {
             tmpImageURL = tweet.entities.media[0].media_url_https;
-            console.log ("Found acceptable Tweet w/ Image (media_url_https) : " + tmpImageURL + ", and text : " + tweet.text);
         }
         else if (containsImageHTTPS > -1){
           tmpImageURL = tweet.text.substring(containsImageHTTPS);
-          console.log("Found acceptable Tweet w/ image (https)" + tmpImageURL);
         } else if (containsImageHTTP > -1) {
           tmpImageURL = tweet.text.substring(containsImageHTTP);
-          console.log("Found acceptable Tweet w/ image (http)" + tmpImageURL);
         }
         else {
-          console.log("No suitable tweet w/ image found");
+          console.log("");
+          console.log("No suitable tweet found..." + JSON.stringify(tweet));
+          console.log("");
           return;
         }
 
+        if (tweet.user.lang == "es" && tweet.keywords[0] == "abra") {
+          console.log("Language is Spanish and Abra detected.  Not saving");
+          return;
+        }
         // Add the Picture URL to the Tweet
         tweet.media_url_https = tmpImageURL;
+
+        console.log("");
+        console.log ("Found acceptable Tweet w/ Image  : " + JSON.stringify(tweet));
+        console.log("");
         // Remove unnecessary JSON data
-        var broadcastTweet = reformatTweet(tweet);
+        var formattedTweet = reformatTweet(tweet);
 
-        var dbTweet = swapTweetCoordinates(broadcastTweet);
+        // Apparently Twitter sends the response as LONG / LAT - so save the tweet exactly as is instead of swapping
         // Creates a new Tweet based on the Mongoose schema and the post body
-        var newtweet = new Tweet(dbTweet);
+        var newtweet = new Tweet(formattedTweet);
 
-        // New Tweet is saved in the db.
+        // // New Tweet is saved in the db.
         newtweet.save(function(err){
             if(err) {
-              console.log("error = " + err);
+              console.log("");
+              console.error("MongoDB error while saving Tweet " + JSON.stringify(err));
+              console.log("Original Tweet: " + JSON.stringify(formattedTweet));
+              console.log("dbTweet: " + JSON.stringify(tweet));
+              console.log("");
               return;
             }
             // If no errors are found
-            // console.log("successful save");
+            console.log("successfully saved Tweet: " + JSON.stringify(newtweet));
         });
 
-        io.emit('data',broadcastTweet);
+        io.emit('data',formattedTweet);
       }
     });
   };
