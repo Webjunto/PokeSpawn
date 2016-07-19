@@ -25,7 +25,8 @@ angular.module('tophemanDatavizApp')
       var mapOptions = {
         center: zoomPoint,
         zoom: zoomLevel,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        minZoom: 2
       };
 
       Map = new google.maps.Map(document.getElementById("map"), mapOptions);
