@@ -18,7 +18,7 @@ angular.module('tophemanDatavizApp')
                 console.log('state.twitter', newVal, oldVal);
                 if(newVal !== oldVal){
                   if(newVal === 'disconnected'){
-                    growl.warning("Utoh, something happened! ...");
+                    // growl.warning("Utoh, something happened! ...");
                   }
                   if(newVal === 'connected'){
                     growl.success("Gotta catch them all!", {ttl: 15000});
