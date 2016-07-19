@@ -86,6 +86,7 @@ strong {
 // injector
 @import '_variables.scss';
 @import 'common.scss';
+@import 'controllers/CatchingPokemon/catchingpokemon.scss';
 @import 'controllers/channel/channel.scss';
 @import 'controllers/main/main.scss';
 @import 'directives/connexionTime/connexionTime.scss';

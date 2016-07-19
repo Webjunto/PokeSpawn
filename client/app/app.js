@@ -50,6 +50,11 @@ angular.module('tophemanDatavizApp', [
         controller: 'MainCtrl',
         resolve: routeResolver
       })
+      .when('/catchingpokemon', {
+        templateUrl: 'app/controllers/CatchingPokemon/catchingpokemon.html',
+        controller: 'CatchingPokemonCtrl',
+        resolve: routeResolver
+      })
       .when('/channel/:channel', {
         templateUrl: 'app/controllers/channel/channel.html',
         controller: 'ChannelCtrl',
