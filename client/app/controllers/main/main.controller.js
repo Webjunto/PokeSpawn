@@ -7,7 +7,7 @@ angular.module('tophemanDatavizApp')
   $scope.channelsDescription = persistance.getData().channelsDescription;
   $scope.data = persistance.getData();
   $scope.displayState = displayState;
-
+  $scope.queryCount;
   //Initialize Map 
   $scope.map = gservice.createMap();
 
@@ -25,7 +25,11 @@ angular.module('tophemanDatavizApp')
     var getTweets = window.location + "tweets";
 
     $http.get(getTweets).then(function(response){ 
+      $scope.queryCount = response.data.length;
       for (var r in response.data) {
+        if (r >= 750) { 
+          return;
+        }
         var promise = new Promise(function(resolve, reject) {
           // do a thing, possibly async, then…
           if (gservice.createMarker(response.data[r])) {

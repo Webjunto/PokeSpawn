@@ -1,47 +1,48 @@
 <state-notifications></state-notifications>
+</div>
+  <nav class="navbar navbar-default" role="navigation" set-class-when-at-top="fix-to-top" padding-when-at-top="50">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand logo" ng-href="/"><span>PokeSpawn - Where the Pokemon Spawn</span></a>
+      </div>
 
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand logo" ng-href="/"><span>PokeSpawn - Where the Pokemon Spawn</span></a>
-    </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+         <!--  <li ng-repeat="item in channelsMenu | limitTo:1" ng-class="{active: isActive(item.link)}">
+            <a ng-href="{{item.link}}">
+              <span class="badge pull-right">{{data.channels[$index].count}}</span>
+              {{item.title}}
+            </a>
+          </li> -->
+          <li ng-class="{active: isActive(item.link)}">
+            <!-- <a ng-href="/">
+              How to Battle
+            </a> -->
+          </li>
+          <li ng-class="{active: isActive(item.link)}">
+            <!-- <a ng-href="/">
+              Catching Techniques
+            </a> -->
+          </li>
+        </ul>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-       <!--  <li ng-repeat="item in channelsMenu | limitTo:1" ng-class="{active: isActive(item.link)}">
-          <a ng-href="{{item.link}}">
-            <span class="badge pull-right">{{data.channels[$index].count}}</span>
-            {{item.title}}
-          </a>
-        </li> -->
-        <li ng-class="{active: isActive(item.link)}">
-          <a ng-href="/">
-            How to Battle
-          </a>
-        </li>
-        <li ng-class="{active: isActive(item.link)}">
-          <a ng-href="/">
-            Catching Techniques
-          </a>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-<ul class="site-networks">
-  <li class="twitter">
-    <a href="https://twitter.com/jedihacks" title="@jedihacks on Twitter">
-      <span class="icon"></span>
-      <span class="desc">Twitter</span>
-    </a>
-  </li>
-</ul>
+        <ul class="site-networks">
+          <div style="padding-top:10px;">
+            <p class="twitter-button-wrapper">
+              <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://pokespawn.com" data-text="Track your Pokemon at PokeSpawn.com with #pokespawn!" data-via="jedihacks" data-size="large" data-count="none">Share this site!</a>
+              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            </p>
+          </div>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+</div>

@@ -10,6 +10,34 @@ angular.module('tophemanDatavizApp', [
   'angular-growl',
   'duScroll'
 ])
+
+  .directive('setClassWhenAtTop', function ($window) {
+    var $win = angular.element($window);
+
+    return {
+        restrict: "A",
+        link: function (scope, element, attrs) {
+            var topClass = attrs.setClassWhenAtTop,
+                topPadding = parseInt(attrs.paddingWhenAtTop, 10),
+                parent = element.parent(),
+                offsetTop;
+
+            $win.on("scroll", function () {
+                // dynamic page layout so have to recalculate every time;
+                // take offset of parent because after the element gets fixed
+                // it now has a different offset from the top
+                offsetTop = parent.offset().top - topPadding;
+                if ($win.scrollTop() >= offsetTop) {
+                    element.addClass(topClass);
+                    parent.height(element.height());
+                } else {
+                    element.removeClass(topClass);
+                    parent.css("height", null);
+                }
+            });
+        }
+    };
+  })
   .config(function ($routeProvider, $locationProvider, growlProvider) {
     var routeResolver = {
       app: ['persistance',function(persistance) {

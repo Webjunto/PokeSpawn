@@ -19,6 +19,13 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
   padding: 0.2em 0;
 }
 
+.fix-to-top {
+  position: fixed;
+  top: 0;
+  width:100%;
+  z-index: 999;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container{
@@ -41,7 +48,7 @@ footer.footer {
 
 .footer {
   text-align: center;
-  padding: 30px 0;
+  padding: 10px 0;
   margin-top: 70px;
   border-top: 1px solid #E5E5E5;
 }
