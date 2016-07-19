@@ -107,10 +107,10 @@ var SocketsManager = function(io, twitterStreamManager){
           return;
         }
 
-        if (tweet.user.lang == "es" && tweet.keywords[0] == "abra") {
-          console.log("Language is Spanish and Abra detected.  Not saving");
-          return;
-        }
+        // if (tweet.user.lang == "es" && tweet.keywords[0] == "abra") {
+        //   console.log("Language is Spanish and Abra detected.  Not saving");
+        //   return;
+        // }
         // Add the Picture URL to the Tweet
         tweet.media_url_https = tmpImageURL;
 
