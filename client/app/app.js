@@ -60,6 +60,11 @@ angular.module('tophemanDatavizApp', [
         controller: 'WhatsNextCtrl',
         resolve: routeResolver
       })
+      .when('/signup', {
+        templateUrl: 'app/controllers/Signup/signup.html',
+        controller: 'SignupCtrl',
+        resolve: routeResolver
+      })
       .when('/channel/:channel', {
         templateUrl: 'app/controllers/channel/channel.html',
         controller: 'ChannelCtrl',
