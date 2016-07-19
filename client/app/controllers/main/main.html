@@ -22,15 +22,15 @@
                 <div class="panel-body">
                   <img src="assets/images/pikachu_hello.png" class="pull-left" style="width:50px;height:50px;margin-right:5px;">
                   <p> We pull tweets from around the world with the <b>Name</b> of the pokemon, a <b>picture</b> of the capture, and <a href="https://twitter.com/search?q=%23pokespawn&src=typd">#pokespawn</a></p>
-                  <h3 class="panel-title text-left">How to Post... </h3>
+                  <h3 class="panel-title text-left">How to Post... </h3> <br>
                   <p> Simple!  Just include the Name, Picture, and #Pokespawn in your tweets!</p>
                   <p><a href="https://twitter.com/jedihacks/status/755186719427850241"<i>Example:  "I just caught an <b>Eevee</b>!! Woot I rock yo!  #pokespawn "</i></a></p>
               </div> <!-- End Panel Body -->
             </div> <!-- End Panel -->
-             <div class="panel panel-default" style="height:350px;">
+            <div class="panel panel-default">
                 <!-- Panel Title -->
                 <div class="panel-heading">
-                    <h2 class="panel-title text-center">Find [{{queryCount}}] Pokemon Near You ... <span class="glyphicon glyphicon-map-marker"></span></h2>
+                    <h2 class="panel-title text-center">Find Pokemon Near You ... <span class="glyphicon glyphicon-map-marker"></span></h2>
                 </div>
                 <!-- Panel Body -->
                 <div class="panel-body">
@@ -42,7 +42,7 @@
                           <div class="input-group">
                             <input type="text" class="form-control" id="pokemon" placeholder="Pikachu" ng-model="formData.pokemon">
                             <span class="input-group-btn">
-                               <button type="submit" ng-click="queryTweets()" class="btn btn-info btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
+                               <button type="submit" ng-click="queryTweets()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
                             </span>
                           </div><!-- /input-group -->
                       </div>
@@ -52,7 +52,7 @@
                         <div class="input-group">
                           <input type="text" class="form-control" id="distance" placeholder="100" ng-model="formData.distance" value="100">
                           <span class="input-group-btn">
-                            <button type="submit" ng-click="queryTweets()" class="btn btn-info btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
+                            <button type="submit" ng-click="queryTweets()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
                           </span>
                         </div><!-- /input-group -->
                       </div> 
@@ -62,16 +62,17 @@
                           <div class="input-group">
                              <input type="number" class="form-control" id="age" placeholder="all time" ng-model="formData.maxAge" >
                             <span class="input-group-btn">
-                              <button type="submit" ng-click="queryTweets()" class="btn btn-info btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
+                              <button type="submit" ng-click="queryTweets()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
                             </span>
                           </div><!-- /input-group -->
                       </div>
-                     
-                      <!-- Submit button. Note that its tied to createUser() function from addCtrl. Also note ng-disabled logic which prevents early submits.  -->
-                      <button type="submit" ng-click="queryTweets()" class="btn btn-danger btn-block" ng-disabled="addForm.$invalid">Submit</button>
-
                     </form>
                 </div> <!-- End Panel Body -->
+                <div class="panel-footer">
+                  <center>
+                    Found {{queryCount}} Pokemon!
+                  </center>
+                </div>
             </div> <!-- End Panel -->
         </div> <!-- End Col 4 -->
   </div>

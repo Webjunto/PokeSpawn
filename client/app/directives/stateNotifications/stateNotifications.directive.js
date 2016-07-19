@@ -30,7 +30,7 @@ angular.module('tophemanDatavizApp')
                 console.log('state.socket', newVal, oldVal);
                 if(newVal !== oldVal){
                   if(newVal === 'disconnected'){
-                    growl.error("Socket disconnected<br>Application trying to reconnect ...");
+                    // growl.error("Socket disconnected<br>Application trying to reconnect ...");
                   }
                   if(newVal === 'connected'){
                     // growl.success("Socket connected<br>Application successfully connected.");
