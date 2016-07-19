@@ -55,6 +55,11 @@ angular.module('tophemanDatavizApp', [
         controller: 'CatchingPokemonCtrl',
         resolve: routeResolver
       })
+      .when('/whatsnext', {
+        templateUrl: 'app/controllers/WhatsNext/whatsnext.html',
+        controller: 'WhatsNextCtrl',
+        resolve: routeResolver
+      })
       .when('/channel/:channel', {
         templateUrl: 'app/controllers/channel/channel.html',
         controller: 'ChannelCtrl',
