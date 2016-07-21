@@ -20,7 +20,7 @@ module.exports = function(app, socketManager) {
   app.get('/tweets', function(req, res){
     console.log("Inside Tweets Route");
       // Uses Mongoose schema to run the search (empty conditions)
-      var query = Tweet.find({});
+      var query = Tweet.count();
       query.exec(function(err, tweets){
           if(err)
               res.send(err);
@@ -72,6 +72,8 @@ module.exports = function(app, socketManager) {
     }
 
     query.limit(1000);
+    query.sort({created_at: -1})
+    // var query = Tweet.find({}).limit(1000).sort({created_at: -1});
 
     // Execute Query and Return the Query Results
     query.exec(function(err, tweets){

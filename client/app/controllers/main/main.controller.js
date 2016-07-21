@@ -11,7 +11,20 @@ angular.module('tophemanDatavizApp')
   $scope.markersArray = [];
   $scope.map;
   $scope.formData = {};
+  $scope.queryDistance = 1500;
   var queryBody = {};
+  var geocoder = new google.maps.Geocoder();
+  $scope.pokemonCount;
+  $http.get('/tweets')
+      .success(function(resultCount)
+      {
+        // Count the number of records retrieved for the panel-footer
+        $scope.pokemonCount = resultCount;
+        console.log("Query results retrieved: " + $scope.pokemonCount);
+      })
+      .error(function(queryResults){
+          console.error('Error in Query' + queryResults);
+      })
 
   $scope.$watchCollection('data', function(newData, oldData) {
     console.log("Data has changed!, data: " + JSON.stringify(newData.channels[0]));
@@ -41,17 +54,14 @@ angular.module('tophemanDatavizApp')
 
     google.maps.event.addListener($scope.map, 'zoom_changed', function() {
       console.log("zoom changed!");
-      for(var i=0; i<$scope.markersArray.length; i++){
-        if ($scope.markersArray[i].getMap() != null) $scope.markersArray[i].setMap(null);
-        else $scope.markersArray[i].setMap($scope.map);
-      }
+      clearMarkers();
       $scope.queryTweets();
     });
 
-    google.maps.event.addListener($scope.map, 'dragend', function(){
-      console.log("Map Dragged");
-      $scope.queryTweets();
-    });
+    // google.maps.event.addListener($scope.map, 'dragend', function(){
+    //   console.log("Map Dragged");
+    //   $scope.queryTweets();
+    // });
 
   }
   //Initialize Map 
@@ -59,23 +69,44 @@ angular.module('tophemanDatavizApp')
   addEventListeners();
 
   $scope.specificQuery = function (specificQueryBool) {
-    console.log("specificQuery + " + specificQueryBool)
+    console.log("specificQuery + " + specificQueryBool);
     clearMarkers(specificQueryBool);
+    $scope.queryTweets();
+  }
+
+  $scope.searchByAddress = function () {
+    console.log("Searching by Address + " + $scope.formData.address);
+    clearMarkers(true);
+
+    if ($scope.formData.address && geocoder) {
+      geocoder.geocode( { 'address': $scope.formData.address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+            $scope.queryTweets(results[0].geometry.location);
+            $scope.map.setZoom(10);
+            $scope.map.setCenter(results[0].geometry.location);
+          }
+        }
+      })
+    }
     $scope.queryTweets();
   }
   
   // Take query parameters and incorporate into a JSON queryBody
-  $scope.queryTweets = function(zoomChange){
+  $scope.queryTweets = function(addressCoordinates){
     console.log("Quering for Tweets");
     /* Get our current map state so we can return here upon successful query */
-    var tmpCenter = $scope.map.getCenter();
+    var tmpCenter = $scope.map.getCenter();;
     var tmpZoom = $scope.map.getZoom();
-    console.log("Map Center:" + JSON.stringify(tmpCenter) + ", Zoom = " + tmpZoom + " , Distance = " + $scope.formData.distance);
-
-    if (!$scope.formData.distance) {
-      $scope.formData.distance = 2000;
+    if (addressCoordinates){
+      console.log("Querying by Address Coordinates");
+      $scope.queryDistance = 200;
     }
-    
+    else {
+      $scope.queryDistance = 1000;
+    }
+    console.log("Map Center:" + JSON.stringify(tmpCenter) + ", Zoom = " + tmpZoom + " , Distance = " + $scope.queryDistance);
+
     // Assemble Query Body
     queryBody = {
       pokemon: $scope.formData.pokemon,
@@ -83,7 +114,7 @@ angular.module('tophemanDatavizApp')
       maxAge: $scope.formData.maxAge,
       latitude: parseFloat(tmpCenter.lat()),
       longitude: parseFloat(tmpCenter.lng()),
-      distance: parseFloat($scope.formData.distance)
+      distance: parseFloat($scope.queryDistance)
     };
 
     if (queryBody.pokemon) {

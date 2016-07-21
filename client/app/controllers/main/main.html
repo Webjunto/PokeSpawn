@@ -7,26 +7,12 @@
   </div> -->
   <div class="row content">
     <!-- Google Map -->
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div id="map" style="width:100%;height:650px;"><img src="holder.js/645x645"></div>
     </div>
 
     <!-- Side Panel -->
-        <div class="col-md-4">
-            <div class="panel panel-default" style="height:275px;">
-                <!-- Panel Title -->
-                <div class="panel-heading">
-                    <h2 class="panel-title text-center">How it Works... <span class="glyphicon glyphicon-map-marker"></span></h2>
-                </div>
-                <!-- Panel Body -->
-                <div class="panel-body">
-                  <img src="assets/images/pikachu_hello.png" class="pull-left" style="width:50px;height:50px;margin-right:5px;">
-                  <p> We pull tweets from around the world with the <b>Name</b> of the pokemon, a <b>picture</b> of the capture, and <a href="https://twitter.com/search?q=%23pokespawn&src=typd">#pokespawn</a></p>
-                  <h3 class="panel-title text-left">How to Post... </h3> <br>
-                  <p> Simple!  Just include the Name, Picture, and #Pokespawn in your tweets!</p>
-                  <p><a href="https://twitter.com/jedihacks/status/755186719427850241"<i>Example:  "I just caught an <b>Eevee</b>!! Woot I rock yo!  #pokespawn "</i></a></p>
-              </div> <!-- End Panel Body -->
-            </div> <!-- End Panel -->
+        <div class="col-md-3">
             <div class="panel panel-default">
                 <!-- Panel Title -->
                 <div class="panel-heading">
@@ -34,43 +20,37 @@
                 </div>
                 <!-- Panel Body -->
                 <div class="panel-body">
-                    <!-- Creates Form (novalidate disables HTML validation, Angular will control) -->
-                    <form name="addForm" novalidate>
-                      <!-- Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope -->
-                      <label for="searchname">Search by Name </label>
-                      <div class="form-group">
-                          <div class="input-group">
-                            <input type="text" class="form-control" id="pokemon" placeholder="Pikachu" ng-model="formData.pokemon">
-                            <span class="input-group-btn">
-                               <button type="submit" ng-click="specificQuery(true)" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
-                            </span>
-                          </div><!-- /input-group -->
-                      </div>
-                      
-                      <label for="distance">Distance in Miles (Uses center of map) </label>
-                      <div class="form-group">
+                  <img src="assets/images/pikachu_hello.png" class="pull-left" style="width:50px;height:50px;margin-right:5px;">
+                  <p> We pull tweets from around the world with the <b>Name</b> of the pokemon, and a <b>picture</b> of the capture.
+
+                  <p><a href="https://twitter.com/jedihacks/status/755186719427850241"<i>Example:  "I just caught an <b>Eevee</b>!! Woot I rock yo! [Put image here]"</i></a></p>
+
+                  <form name="addForm" novalidate>
+                    <!-- Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope -->
+                    <label for="searchname">Search by Name </label>
+                    <div class="form-group">
                         <div class="input-group">
-                          <input type="text" class="form-control" id="distance" placeholder="1000" ng-model="formData.distance">
+                          <input type="text" class="form-control" id="pokemon" placeholder="Pikachu" ng-model="formData.pokemon">
                           <span class="input-group-btn">
-                            <button type="submit" ng-click="specificQuery()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
+                             <button type="submit" ng-click="specificQuery(true)" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
                           </span>
                         </div><!-- /input-group -->
-                      </div> 
+                    </div>
                     
-                      <div class="form-group">
-                          <label for="age">Days Old</label>
-                          <div class="input-group">
-                             <input type="number" class="form-control" id="age" placeholder="all time" ng-model="formData.maxAge" >
-                            <span class="input-group-btn">
-                              <button type="submit" ng-click="specificQuery()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
-                            </span>
-                          </div><!-- /input-group -->
-                      </div>
-                    </form>
+                    <label for="distance">Search by Address</label>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="address" placeholder="Philadelphia" ng-model="formData.address">
+                        <span class="input-group-btn">
+                          <button type="submit" ng-click="searchByAddress()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
+                        </span>
+                      </div><!-- /input-group -->
+                    </div> 
+                  </form>
                 </div> <!-- End Panel Body -->
                 <div class="panel-footer">
                   <center>
-                    Found {{queryCount}} Pokemon!
+                    Showing {{queryCount}} out of {{pokemonCount}} Pokemon!
                   </center>
                 </div>
             </div> <!-- End Panel -->
