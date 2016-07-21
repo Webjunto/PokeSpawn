@@ -7,6 +7,8 @@ angular.module('tophemanDatavizApp')
     //Instantiate current Date for Marker
     var Today = new Date();
 
+    var markers = [];
+
     var createMap = function (_centerOfMap, _zoomLevel) {
       //Initial Zoom Point
       var zoomPoint;
@@ -14,13 +16,13 @@ angular.module('tophemanDatavizApp')
       if (_centerOfMap) {
         zoomPoint = _centerOfMap;
       } else {
-        zoomPoint = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+        zoomPoint = new google.maps.LatLng(42.796534304623066, -96.2756609916687);
       }
       
       if (_zoomLevel) { 
         zoomLevel = _zoomLevel;
       } else {
-        zoomLevel = 2;
+        zoomLevel = 3;
       }
       var mapOptions = {
         center: zoomPoint,
@@ -67,6 +69,8 @@ angular.module('tophemanDatavizApp')
           icon : iconValidated
         });
 
+        markers.push(marker);
+
         google.maps.event.addListener(marker, 'click', function () {
           console.log("Tweet pic: " + tweet.media_url_https);
            // Create popup windows for each record
@@ -87,6 +91,13 @@ angular.module('tophemanDatavizApp')
       });
       return true;
     };
+
+   var setMapOnAll = function () {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(Map);
+      }
+    }
+
 
     // Detects whether or not an image exists on our server (live)
     var isImage = function(src) {
@@ -140,7 +151,8 @@ angular.module('tophemanDatavizApp')
     return {
       createMap: createMap,
       createMarker: createMarker,
-      isImage: isImage
+      isImage: isImage,
+      setMapOnAll: setMapOnAll
     };
 
   });
