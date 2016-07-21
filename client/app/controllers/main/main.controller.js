@@ -8,7 +8,8 @@ angular.module('tophemanDatavizApp')
   $scope.data = persistance.getData();
   $scope.displayState = displayState;
   $scope.queryCount;
-
+  $scope.markersArray = [];
+  $scope.map;
   $scope.formData = {};
   var queryBody = {};
 
@@ -29,7 +30,11 @@ angular.module('tophemanDatavizApp')
 
     google.maps.event.addListener($scope.map, 'zoom_changed', function() {
       console.log("zoom changed!");
-      // gservice.reloadMarkers();
+      for(var i=0; i<$scope.markersArray.length; i++){
+        if ($scope.markersArray[i].getMap() != null) $scope.markersArray[i].setMap(null);
+        else $scope.markersArray[i].setMap($scope.map);
+      }
+      $scope.markersArray = [];
       $scope.queryTweets();
     });
   }
@@ -74,7 +79,7 @@ angular.module('tophemanDatavizApp')
 
         for (var r in queryResults) {
         var promise = new Promise(function(resolve, reject) {
-          if (gservice.createMarker(queryResults[r])) {
+          if (createMarker(queryResults[r])) {
             resolve("Creating marker worked");
           }
           else {
@@ -87,4 +92,52 @@ angular.module('tophemanDatavizApp')
           console.error('Error in Query' + queryResults);
       })
     };
+
+  var createMarker = function(tweet) {
+    var marker;
+    // Let's put this backwords to make up for MongoDB Database requirements
+    var tmpCoordinates = new google.maps.LatLng(tweet.coordinates[1], tweet.coordinates[0]);
+    var pokemonIconUrl =  "assets/images/" + tweet.keywords[0] + ".png";
+    gservice.isImage(pokemonIconUrl).then(function(result) {
+      if (result) { /*console.log("EXISTS: " + pokemonIconUrl);*/} 
+      else { pokemonIconUrl = "assets/images/pokeball_marker.png"; }
+
+      var iconValidated = {
+        url:  pokemonIconUrl,
+        scaledSize: new google.maps.Size(48, 48), // scaled size
+        origin: new google.maps.Point(0,0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+      };
+
+      marker = new google.maps.Marker({
+        map: $scope.map,
+        animation: google.maps.Animation.DROP,
+        position: tmpCoordinates,
+        icon : iconValidated
+      });
+
+      $scope.markersArray.push(marker);
+
+      google.maps.event.addListener(marker, 'click', function () {
+        console.log("Tweet pic: " + tweet.media_url_https);
+         // Create popup windows for each record
+        var  contentString =
+            '<p><b>User</b>: @' + tweet.screen_name +  
+            '<br><b>Pokemon</b>: ' + tweet.keywords[0] +
+            '<br><b>Posted</b>: ' + parseTwitterDate(tweet.created_at) +
+            '<br><b>Text</b>: ' + tweet.text +
+            '<br><b>Image</b>: <img src=\"' + tweet.profile_image_url + '\" style=\"height:42px;width:42px;\">' +
+            '<p><b>Twitter Post</b>: <a href=\"http://twitter.com/' + tweet.screen_name + '\" > @' + tweet.screen_name + '</a>' +
+            '</p>';
+        var infoWindow = new google.maps.InfoWindow({
+          content: contentString,
+          maxWidth: 320
+        });
+        infoWindow.open(Map, marker);
+      }); 
+    });
+
+    
+    return true;
+  };
 });

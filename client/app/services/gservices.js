@@ -45,6 +45,7 @@ angular.module('tophemanDatavizApp')
     }
 
     var createMarker = function(tweet) {
+      var marker;
       // console.error("TWEET: " + JSON.stringify(tweet));
       // Let's put this backwords to make up for Database
       var tmpCoordinates = new google.maps.LatLng(tweet.coordinates[1], tweet.coordinates[0]);
@@ -57,19 +58,17 @@ angular.module('tophemanDatavizApp')
 
         var iconValidated = {
           url:  pokemonIconUrl,
-          scaledSize: new google.maps.Size(25, 25), // scaled size
+          scaledSize: new google.maps.Size(48, 48), // scaled size
           origin: new google.maps.Point(0,0), // origin
           anchor: new google.maps.Point(0, 0) // anchor
         };
 
-        var marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
           map: Map,
           animation: google.maps.Animation.DROP,
           position: tmpCoordinates,
           icon : iconValidated
         });
-
-        markers.push(marker);
 
         google.maps.event.addListener(marker, 'click', function () {
           console.log("Tweet pic: " + tweet.media_url_https);
@@ -89,15 +88,20 @@ angular.module('tophemanDatavizApp')
           infoWindow.open(Map, marker);
         }); 
       });
+
+      markers.push(marker);
       return true;
     };
 
-   var setMapOnAll = function () {
-      for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(Map);
+    var reloadMarkers = function() {
+      console.log("Reloading markers");
+      // Loop through markers and set map to null for each
+      for (var i=0; i<markers.length; i++) {
+        markers[i].setMap(null);
       }
+      // Reset the markers array
+      markers = [];
     }
-
 
     // Detects whether or not an image exists on our server (live)
     var isImage = function(src) {
@@ -152,7 +156,7 @@ angular.module('tophemanDatavizApp')
       createMap: createMap,
       createMarker: createMarker,
       isImage: isImage,
-      setMapOnAll: setMapOnAll
+      reloadMarkers: reloadMarkers
     };
 
   });
