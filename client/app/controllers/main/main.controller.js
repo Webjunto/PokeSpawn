@@ -20,11 +20,21 @@ angular.module('tophemanDatavizApp')
     }
   });
 
+  var clearMarkers = function () {
+    if ($scope.markersArray.length >= 3000) {
+      console.log("Clearing out array");
+      for(var i=0; i<$scope.markersArray.length; i++){
+        if ($scope.markersArray[i].getMap() != null) $scope.markersArray[i].setMap(null);
+        else $scope.markersArray[i].setMap($scope.map);
+      }
+      $scope.markersArray = [];
+    }
+  }
   var addEventListeners = function () {
     console.log("Adding map event listeners");
     // begin code to drop a marker & create info window (this MUST be inside where the map loads: http://stackoverflow.com/questions/7058094/google-maps-api-cannot-read-property-e3-of-undefined) //
     //Wait until the map is loaded
-   google.maps.event.addListenerOnce($scope.map, 'idle', function(){
+    google.maps.event.addListenerOnce($scope.map, 'idle', function(){
       $scope.queryTweets();
     });
 
@@ -34,9 +44,15 @@ angular.module('tophemanDatavizApp')
         if ($scope.markersArray[i].getMap() != null) $scope.markersArray[i].setMap(null);
         else $scope.markersArray[i].setMap($scope.map);
       }
-      $scope.markersArray = [];
+      
       $scope.queryTweets();
     });
+
+    google.maps.event.addListener($scope.map, 'dragend', function(){
+      console.log("Map Dragged");
+      $scope.queryTweets();
+    });
+
   }
   //Initialize Map 
   $scope.map = gservice.createMap();
