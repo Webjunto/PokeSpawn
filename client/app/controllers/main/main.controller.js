@@ -20,8 +20,9 @@ angular.module('tophemanDatavizApp')
     }
   });
 
-  var clearMarkers = function () {
-    if ($scope.markersArray.length >= 3000) {
+  var clearMarkers = function (specificQueryBool) {
+    console.log("Clearing markers, specificQueryBool = " + specificQueryBool);
+    if ($scope.markersArray.length >= 3000 || specificQueryBool) {
       console.log("Clearing out array");
       for(var i=0; i<$scope.markersArray.length; i++){
         if ($scope.markersArray[i].getMap() != null) $scope.markersArray[i].setMap(null);
@@ -44,7 +45,6 @@ angular.module('tophemanDatavizApp')
         if ($scope.markersArray[i].getMap() != null) $scope.markersArray[i].setMap(null);
         else $scope.markersArray[i].setMap($scope.map);
       }
-      
       $scope.queryTweets();
     });
 
@@ -57,6 +57,12 @@ angular.module('tophemanDatavizApp')
   //Initialize Map 
   $scope.map = gservice.createMap();
   addEventListeners();
+
+  $scope.specificQuery = function (specificQueryBool) {
+    console.log("specificQuery + " + specificQueryBool)
+    clearMarkers(specificQueryBool);
+    $scope.queryTweets();
+  }
   
   // Take query parameters and incorporate into a JSON queryBody
   $scope.queryTweets = function(zoomChange){
@@ -67,7 +73,7 @@ angular.module('tophemanDatavizApp')
     console.log("Map Center:" + JSON.stringify(tmpCenter) + ", Zoom = " + tmpZoom + " , Distance = " + $scope.formData.distance);
 
     if (!$scope.formData.distance) {
-      $scope.formData.distance = 1000;
+      $scope.formData.distance = 2000;
     }
     
     // Assemble Query Body
@@ -152,6 +158,37 @@ angular.module('tophemanDatavizApp')
         infoWindow.open(Map, marker);
       }); 
     });
+
+    /*Parse Twitter Date
+    Taken from http://stackoverflow.com/questions/6549223/javascript-code-to-display-twitter-created-at-as-xxxx-ago//
+    */
+    function parseTwitterDate(tdate) {
+      var system_date = new Date(Date.parse(tdate));
+      var user_date = new Date();
+      if (K.ie) {
+          system_date = Date.parse(tdate.replace(/( \+)/, ' UTC$1'))
+      }
+      var diff = Math.floor((user_date - system_date) / 1000);
+      if (diff <= 1) {return "just now";}
+      if (diff < 20) {return diff + " seconds ago";}
+      if (diff < 40) {return "half a minute ago";}
+      if (diff < 60) {return "less than a minute ago";}
+      if (diff <= 90) {return "one minute ago";}
+      if (diff <= 3540) {return Math.round(diff / 60) + " minutes ago";}
+      if (diff <= 5400) {return "1 hour ago";}
+      if (diff <= 86400) {return Math.round(diff / 3600) + " hours ago";}
+      if (diff <= 129600) {return "1 day ago";}
+      if (diff < 604800) {return Math.round(diff / 86400) + " days ago";}
+      if (diff <= 777600) {return "1 week ago";}
+      return "on " + system_date;
+    }
+    var K = function () {
+      var a = navigator.userAgent;
+      return {
+          ie: a.match(/MSIE\s([^;]*)/)
+      }
+    }();
+    /*End Parse Twitter date*/
 
     
     return true;

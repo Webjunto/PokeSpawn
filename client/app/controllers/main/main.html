@@ -42,7 +42,7 @@
                           <div class="input-group">
                             <input type="text" class="form-control" id="pokemon" placeholder="Pikachu" ng-model="formData.pokemon">
                             <span class="input-group-btn">
-                               <button type="submit" ng-click="queryTweets()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
+                               <button type="submit" ng-click="specificQuery(true)" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
                             </span>
                           </div><!-- /input-group -->
                       </div>
@@ -52,7 +52,7 @@
                         <div class="input-group">
                           <input type="text" class="form-control" id="distance" placeholder="1000" ng-model="formData.distance">
                           <span class="input-group-btn">
-                            <button type="submit" ng-click="queryTweets()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
+                            <button type="submit" ng-click="specificQuery()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
                           </span>
                         </div><!-- /input-group -->
                       </div> 
@@ -62,7 +62,7 @@
                           <div class="input-group">
                              <input type="number" class="form-control" id="age" placeholder="all time" ng-model="formData.maxAge" >
                             <span class="input-group-btn">
-                              <button type="submit" ng-click="queryTweets()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
+                              <button type="submit" ng-click="specificQuery()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
                             </span>
                           </div><!-- /input-group -->
                       </div>
