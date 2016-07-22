@@ -130,16 +130,30 @@ angular.module('tophemanDatavizApp')
         $scope.queryCount = queryResults.length;
         console.log("Query results retrieved: " + $scope.queryCount);
 
-        for (var r in queryResults) {
-        var promise = new Promise(function(resolve, reject) {
-          if (createMarker(queryResults[r])) {
-            resolve("Creating marker worked");
-          }
-          else {
-            reject(Error("Creating marker didn't work!"));
-          }
-        });
+        var i = 0;
+
+        var promiseLoop = function() {
+          if (i > queryResults.length) {
+            return;
+          }
+
+          i +=1;
+
+          setTimeout( function () {
+            var promise = new Promise(function(resolve, reject) {
+            if (createMarker(queryResults[i])) {
+              resolve("Creating marker worked");
+              console.log("Resolved");
+            }
+            else {
+              reject(Error("Creating marker didn't work!"));
+            }
+            });
+            promiseLoop();
+          }, 1);
         }
+
+        promiseLoop();
       })
       .error(function(queryResults){
           console.error('Error in Query' + queryResults);
