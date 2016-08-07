@@ -71,7 +71,7 @@ module.exports = function(app, socketManager) {
       query = query.where('created_at').lte(cutoff);
     }
 
-    query.limit(1000);
+    query.limit(350);
     query.sort({created_at: -1})
     // var query = Tweet.find({}).limit(1000).sort({created_at: -1});
 

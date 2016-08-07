@@ -1,64 +1,70 @@
 <div class="view-main" >
-  
-  <!-- <div class="panel panel-default">
-    <div class="panel-body">
-        <div class="title pull-left">Pokemon Live Spawn Points... {{data.count}} tweet{{data.count > 1 ? 's' : ''}} captured</div>
-    </div>
-  </div> -->
   <div class="row content">
     <!-- Google Map -->
     <div class="col-md-9">
-        <div id="map" style="width:100%;height:650px;"><img src="holder.js/645x645"></div>
+        <div id="map" style="width:100%;height:500px;"><img src="holder.js/645x645"></div>
     </div>
 
     <!-- Side Panel -->
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <!-- Panel Title -->
-                <div class="panel-heading">
-                    <h2 class="panel-title text-center">Find Pokemon Near You ... <span class="glyphicon glyphicon-map-marker"></span></h2>
-                </div>
-                <!-- Panel Body -->
-                <div class="panel-body">
-                  <img src="assets/images/pikachu_hello.png" class="pull-left" style="width:50px;height:50px;margin-right:5px;">
-                  <p> We pull tweets from around the world with the <b>Name</b> of the pokemon, and a <b>picture</b> of the capture.
+    <div class="col-md-3" style="height:500px;">
+      <div class="panel panel-default">
+        <!-- Panel Title -->
+        <div class="panel-heading">
+            <h2 class="panel-title text-center">Find Pokemon Near You ... <span class="glyphicon glyphicon-map-marker"></span></h2>
+        </div>
 
-                  <p><a href="https://twitter.com/jedihacks/status/755186719427850241"<i>Example:  "I just caught an <b>Eevee</b>!! Woot I rock yo! [Put image here]"</i></a></p>
 
-                  <form name="addForm" novalidate>
-                    <!-- Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope -->
-                    <label for="searchname">Search by Name </label>
-                    <div class="form-group">
-                        <div class="input-group">
-                          <input type="text" class="form-control" id="pokemon" placeholder="Pikachu" ng-model="formData.pokemon">
-                          <span class="input-group-btn">
-                             <button type="submit" ng-click="specificQuery(true)" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
-                          </span>
-                        </div><!-- /input-group -->
-                    </div>
-                    
-                    <label for="distance">Search by Address</label>
-                    <div class="form-group">
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="address" placeholder="Philadelphia" ng-model="formData.address">
-                        <span class="input-group-btn">
-                          <button type="submit" ng-click="searchByAddress()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
-                        </span>
-                      </div><!-- /input-group -->
-                    </div> 
-                  </form>
-                </div> <!-- End Panel Body -->
-                <div class="panel-footer">
-                  <center>
-                    Showing {{queryCount}} out of {{pokemonCount}} Pokemon!
-                  </center>
-                </div>
-            </div> <!-- End Panel -->
-        </div> <!-- End Col 4 -->
-  </div>
-  <debug-state ng-if="false"></debug-state>
-    <!-- <pack-chart-channels data-data="data" ng-if="displayState.packChartChannels"></pack-chart-channels> -->
+        <div class="panel-body">
+          <img src="assets/images/pikachu_hello.png" class="pull-left" style="width:50px;height:50px;margin-right:5px;">
+          <p> We pull tweets from around the world with the <b>Name</b> of the pokemon, and a <b>picture</b> of the capture.
+
+          <p><a href="https://twitter.com/jedihacks/status/755186719427850241"><i>Example:  "I just caught an <b>Eevee</b>!! Woot I rock yo! [Put image here]"</i></a></p>
+
+          <form name="addForm" novalidate>
+            <!-- Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope -->
+            <label for="searchname">Search by Name </label>
+            <div class="form-group">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="pokemon" placeholder="Pikachu" ng-model="formData.pokemon">
+                  <span class="input-group-btn">
+                     <button type="submit" ng-click="specificQuery(true)" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
+                  </span>
+                </div><!-- /input-group -->
+            </div>
+            
+            <label for="distance">Search by Address</label>
+            <div class="form-group">
+              <div class="input-group">
+                <input type="text" class="form-control" id="address" placeholder="Philadelphia" ng-model="formData.address">
+                <span class="input-group-btn">
+                  <button type="submit" ng-click="searchByAddress()" class="btn btn-success btn-block" ng-disabled="addForm.$invalid" style="width:40px;">Go!</button>
+                </span>
+              </div><!-- /input-group -->
+            </div>
+          </form>
+        </div> 
+
+        <!-- Panel Body -->
+        <!-- End Panel Body -->
+        <div class="panel-footer">
+          <center>
+            Showing {{queryCount}} out of {{pokemonCount}} Pokemon!
+          </center>
+        </div>
+      </div> <!-- End Panel -->
+    </div> <!-- End Col 3 -->
+  </div><!-- Row Content -->
   
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- Pokemon Go -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-3303773337924997"
+       data-ad-slot="2510158065"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   <footer class="footer">
     <p class="container">
       ©2016 <a href="http://twitter.com/jedihacks">@jedihacks</a>, Cofounder @ <a href="http://webjunto.com">Webjunto.com</a>

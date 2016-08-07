@@ -22,7 +22,7 @@ angular.module('tophemanDatavizApp')
       if (_zoomLevel) { 
         zoomLevel = _zoomLevel;
       } else {
-        zoomLevel = 3;
+        zoomLevel = 4;
       }
       var mapOptions = {
         center: zoomPoint,
