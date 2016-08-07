@@ -8,10 +8,12 @@ angular.module('tophemanDatavizApp')
   $scope.data = persistance.getData();
   $scope.displayState = displayState;
   $scope.queryCount;
+  $scope.pokemonArray = [];  //store an array of Pokemon from each request
   $scope.markersArray = [];
   $scope.map;
   $scope.formData = {};
   $scope.queryDistance = 1500;
+  var makeItRainBool = false;
   var queryBody = {};
   var geocoder = new google.maps.Geocoder();
   $scope.pokemonCount;
@@ -32,6 +34,31 @@ angular.module('tophemanDatavizApp')
       gservice.createMarker(newData.channels[0].lastTweets[0]);
     }
   });
+
+
+  var i = 0;
+
+  var promiseLoop = function() {
+    if (i > $scope.pokemonArray.length) {
+      return;
+    }
+
+    i +=1;
+
+    setTimeout( function () {
+      var promise = new Promise(function(resolve, reject) {
+      if (createMarker($scope.pokemonArray[i])) {
+        resolve("Creating marker worked");
+        console.log("Resolved");
+      }
+      else {
+        reject(Error("Creating marker didn't work!"));
+      }
+      });
+      promiseLoop();
+    }, 0);
+  }
+
 
   var clearMarkers = function (specificQueryBool) {
     console.log("Clearing markers, specificQueryBool = " + specificQueryBool);
@@ -100,7 +127,7 @@ angular.module('tophemanDatavizApp')
     var tmpZoom = $scope.map.getZoom();
     if (addressCoordinates){
       console.log("Querying by Address Coordinates");
-      $scope.queryDistance = 200;
+      $scope.queryDistance = 25;
     }
     else {
       $scope.queryDistance = 1000;
@@ -130,35 +157,32 @@ angular.module('tophemanDatavizApp')
         $scope.queryCount = queryResults.length;
         console.log("Query results retrieved: " + $scope.queryCount);
 
-        var i = 0;
-
-        var promiseLoop = function() {
-          if (i > queryResults.length) {
-            return;
-          }
-
-          i +=1;
-
-          setTimeout( function () {
-            var promise = new Promise(function(resolve, reject) {
-            if (createMarker(queryResults[i])) {
-              resolve("Creating marker worked");
-              console.log("Resolved");
-            }
-            else {
-              reject(Error("Creating marker didn't work!"));
-            }
-            });
-            promiseLoop();
-          }, 1);
+        // Push new results (only) to pokemonArray[]
+        for (var r in queryResults) {
+          if ($scope.pokemonArray.indexOf(queryResults[r]) == -1) {
+            //console.log("Pushing to array #" + r);
+            $scope.pokemonArray.push(queryResults[r]);
+          }
+          else {
+            console.log("Duplicate found, skipping.");
+          }
         }
 
         promiseLoop();
+
       })
       .error(function(queryResults){
           console.error('Error in Query' + queryResults);
       })
     };
+
+  $scope.makeItRainToggle = function () {
+    if (makeItRainBool) {
+      makeItRainBool = false;
+    } else {
+      makeItRainBool = true;
+    }
+  }
 
   var createMarker = function(tweet) {
     var marker;
