@@ -44,10 +44,8 @@ module.exports = function(app) {
 
   if ('development' === env || 'development-online' === env || 'test' === env) {
     // Sets the connection to MongoDB
-    // mongoose.connect("mongodb://localhost/PokemonSpawnDev");
-    //mongoose.connect("mongodb://heroku_sbc5jf99:d7f9e1atop1uglohcm43ro435p@ds023565-a0.mlab.com:23565,ds023565-a1.mlab.com:23565/heroku_sbc5jf99?replicaSet=rs-ds023565");
-
-    mongoose.connect("mongodb://jedi-user:xfg2d56xs@ds023585-a0.mlab.com:23585,ds023585-a1.mlab.com:23585/heroku_x4rm9c3c?replicaSet=rs-ds023585");
+    mongoose.connect("mongodb://localhost/PokemonSpawnDev");
+   
     app.use(require('connect-livereload')());
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, 'client')));
