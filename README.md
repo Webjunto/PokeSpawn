@@ -56,6 +56,7 @@ Possible states :
 * grunt, bower
 * sass
 * (optional) yeoman generator-angular-fullstack - scaffolded with [yeoman generator-angular-fullstack v2.05](https://github.com/DaftMonk/generator-angular-fullstack/tree/v2.0.5)
+* mongodb
 
 ###Install
 
@@ -63,6 +64,19 @@ Possible states :
 * `bower install`
 * copy `server/config/local.env.default.js` to `server/config/local.env.js` and set your twitter credentials there (for dev purposes)
 * grunt serve - you're good to go (more in the launch section)
+
+* Note - Make sure you have all the requirements installed.
+
+* If you get an error when running grunt serve that you aren't connected through mongobd you may need to adjust your permssions if you are running it for the first time. 
+Adjust permissions with : 
+sudo chown -R `id -u` /data/db
+* Reference : http://stackoverflow.com/questions/15229412/unable-to-create-open-lock-file-data-mongod-lock-errno13-permission-denied
+
+* If you are still getting an error when trying to do grunt serve try :
+sudo mongod -- repair
+sudo mongod
+(in different tab / terminal) mongo
+* Reference : http://stackoverflow.com/questions/16245805/unable-to-connect-to-mongodb-error-couldnt-connect-to-server-127-0-0-127017-a
 
 ###Launch
 
